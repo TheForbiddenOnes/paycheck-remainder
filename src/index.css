@@ -1,13 +1,43 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.btn-main {
+    @apply rounded-md bg-gradient-to-r from-slate-700 to-slate-800 p-3 my-2 mx-2 w-1/6 text-center;
+}
+
+.btn-table-add {
+    @apply rounded-md bg-gradient-to-r from-slate-700 to-slate-800 h-8 w-1/12 text-center;
+}
+
+.btn-navbar {
+    @apply rounded-md bg-gradient-to-r from-slate-600 to-slate-800 p-3 my-2 mx-2 w-1/6 text-center;
+}
+
+.navbar {
+    @apply flex flex-none justify-center content-center items-center w-full bg-slate-900 rounded-bl-xl rounded-br-xl;
+}
+
+.calendar-input-label {
+    @apply block mb-2 text-base font-medium text-white;
+}
+
+.calendar-input {
+    @apply rounded-md bg-slate-500 h-8 w-full block pl-2;
+}
+
+.custom-number-input {
+    @apply rounded-l-md bg-slate-500 h-8 w-full block pl-2;
 }
