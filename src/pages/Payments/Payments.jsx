@@ -38,7 +38,7 @@ export const PaymentsPage = () => {
                 <div className="grid grid-cols-1 h-full p-4">
                     {/*--------First Column (Left Half)--------*/}
                     <div className="flex flex-col items-center justify-start space-y-4 h-full w-full p-4 bg-slate-700 rounded-l-xl rounded-r-xl">
-                        <p className="">Add all of your reoccurring monthly payments here...</p>
+                        <p className="bg-slate-900 text-lg p-3 font-thin rounded-md w-full text-center">Add all of your reoccurring monthly payments here</p>
                         <form onSubmit={handleSubmit} className="flex flex-row justify-center items-end gap-4 w-1/2 bg-slate-600 rounded-l-xl rounded-r-xl p-6">
                             <div>
                                 <label htmlFor="expense_name" className="calendar-input-label">Name of Expense...</label>

@@ -33,7 +33,7 @@ export const Navbar = () => {
                     <p>Dashboard</p>
                 </div>
             </Link>
-            <button className="btn-navbar" onClick={() => signOutUser()}>Sign Out</button>
+            <button className="rounded-md bg-gradient-to-r from-slate-600 to-slate-800 p-3 my-2 mx-2 w-1/12 text-center" onClick={() => signOutUser()}>Sign Out</button>
             <Link to="/payments" className="btn-navbar">
                 <div className="flex flex-row justify-center">
                     <TableCellsIcon className="w-6 h-6 pr-2"/>
