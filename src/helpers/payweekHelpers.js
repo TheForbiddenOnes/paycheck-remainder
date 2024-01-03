@@ -80,6 +80,8 @@ export function getPayweekCalendarRows(payweekDates, payFrequency){
             paycheckRow2 = convertSinglesToDoubles(paycheckRow2);
             break;
         default:
+            paycheckRow1 = payweekDates ? payweekDates.slice(0,7) : [];
+            paycheckRow1 = convertSinglesToDoubles(paycheckRow1);
             break;
     }
 
@@ -88,6 +90,13 @@ export function getPayweekCalendarRows(payweekDates, payFrequency){
     //return array with number of rows equal to payFrequency
     console.log('calendar date rows : ', calendarDateRows)
     return calendarDateRows;
+}
+
+export function getSelectedDateExpenses(selectedDate, payments) {
+    if (!selectedDate) {return [];}
+
+
+
 }
 
 export function getPayweekExpenseTotal(payweekDates, repeatingExpenseAmount, date, payments) {

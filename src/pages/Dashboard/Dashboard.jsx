@@ -8,7 +8,7 @@ import {
     getPayweekCalendarRows,
     getPayweekDates,
     getPayweekExpenseTotal,
-    getPayweekRemainingAmount
+    getPayweekRemainingAmount, getSelectedDateExpenses
 } from "../../helpers/payweekHelpers";
 import {CustomNumberInput} from "../../components/CustomNumberInput";
 import supabase from "../../config/supabaseClient";
@@ -26,6 +26,8 @@ export const DashboardPage = () => {
     const [payFrequencies, setPayFrequencies] = useState([]);
     const [payweekCalendarRows, setPayweekCalendarRows] = useState(null);
     const [payments, setPayments] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDateExpenses, setSelectedDateExpenses] = useState([]);
 
     //get payments
     useEffect(() => {
@@ -44,7 +46,6 @@ export const DashboardPage = () => {
         getPayments();
 
     }, []);
-
     //get paycheck frequencies
     useEffect(() => {
         const getPaycheckFrequencies = async() => {
@@ -63,7 +64,6 @@ export const DashboardPage = () => {
         getPaycheckFrequencies();
 
     }, [])
-
     //get user income
     useEffect(() => {
         const getIncomeAmount = async () => {
@@ -84,7 +84,6 @@ export const DashboardPage = () => {
         getIncomeAmount();
 
     }, []);
-
     //get user paycheck frequency
     useEffect(() => {
         const getPaycheckFrequency = async () => {
@@ -110,17 +109,19 @@ export const DashboardPage = () => {
         setStartDate(formatDate(date));
         setPayweekDates(getPayweekDates(date));
     }, [date]);
-
     //amount setter
     useEffect( () => {
         setExpenseAmount(getPayweekExpenseTotal(payweekDates, repeatingExpenseAmount, date, payments));
         setRemainingAmount(getPayweekRemainingAmount(incomeAmount, expenseAmount));
     }, [payweekDates, incomeAmount, repeatingExpenseAmount, payments]);
-
     //calendar setter
     useEffect(() => {
         setPayweekCalendarRows(getPayweekCalendarRows(payweekDates, payFrequency));
     }, [payweekDates, payFrequency]);
+    //selected date expenses setter
+    useEffect(() => {
+        setSelectedDateExpenses(getSelectedDateExpenses(selectedDate, payments))
+    },[])
 
     return (
         <div className="grid h-screen">
@@ -135,7 +136,7 @@ export const DashboardPage = () => {
                     <div className="flex flex-col justify-center space-y-4 h-full w-full p-4 bg-slate-700 rounded-l-xl">
 
                         <div className="flex items-center justify-between">
-                            <PaycheckCalendar date={date} calendarRows={payweekCalendarRows}/>
+                            <PaycheckCalendar date={date} calendarRows={payweekCalendarRows} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
                         </div>
 
                         <div className="pt-4 flex">
@@ -183,9 +184,9 @@ export const DashboardPage = () => {
                         <div className="grid content-center p-4 bg-slate-900 rounded-br-xl">
                             <div>
                                 {/*{Todo: map through array of paycheckCalendarPaymentInfo's}*/}
-                                <PaycheckCalendarPaymentInfo weekday='Saturday 8th' amount='$121.00' expense='AT&T'/>
-                                <PaycheckCalendarPaymentInfo weekday='Saturday 8th' amount='$121.00' expense='AT&T'/>
-                                <PaycheckCalendarPaymentInfo weekday='Saturday 8th' amount='$121.00' expense='AT&T'/>
+                                {selectedDateExpenses.map(dateExpense => (
+                                    <PaycheckCalendarPaymentInfo weekday={dateExpense.weekday} amount={dateExpense.amount} expense={dateExpense.expense}/>
+                                ))}
                             </div>
                         </div>
                     </div>
