@@ -87,15 +87,33 @@ export function getPayweekCalendarRows(payweekDates, payFrequency){
 
     calendarDateRows.push(paycheckRow1);
     calendarDateRows.push(paycheckRow2);
-    //return array with number of rows equal to payFrequency
-    console.log('calendar date rows : ', calendarDateRows)
+
     return calendarDateRows;
 }
 
-export function getSelectedDateExpenses(selectedDate, payments) {
+export function getSelectedDateExpenses(selectedDate, payweekDates, date, payments) {
     if (!selectedDate) {return [];}
 
+    let payweek = payweekDates ? payweekDates : getPayweekDates(date);
+    let allPayments = payments;
+    let allPaymentsForPayweekDates = [];
+    let allPaymentsForSelectedDate = [];
 
+    for (let i = 0; i < allPayments.length; i++) {
+        payweek.forEach(pd => {
+            if (allPayments[i].expense_due_date === pd.dayNumber) {
+                allPaymentsForPayweekDates.push(allPayments[i]);
+            }
+        })
+    }
+
+    for (let i = 0; i < allPaymentsForPayweekDates.length; i++) {
+        if (allPaymentsForPayweekDates[i].expense_due_date === parseInt(selectedDate)) {
+            allPaymentsForSelectedDate.push(allPaymentsForPayweekDates[i]);
+        }
+    }
+
+    return allPaymentsForSelectedDate;
 
 }
 

@@ -120,8 +120,8 @@ export const DashboardPage = () => {
     }, [payweekDates, payFrequency]);
     //selected date expenses setter
     useEffect(() => {
-        setSelectedDateExpenses(getSelectedDateExpenses(selectedDate, payments))
-    },[])
+        setSelectedDateExpenses(getSelectedDateExpenses(selectedDate, payweekDates, date, payments));
+    },[selectedDate])
 
     return (
         <div className="grid h-screen">
@@ -185,9 +185,8 @@ export const DashboardPage = () => {
                         </div>
                         <div className="grid content-center p-4 bg-slate-900 rounded-br-xl">
                             <div>
-                                {/*{Todo: map through array of paycheckCalendarPaymentInfo's}*/}
                                 {selectedDateExpenses.map(dateExpense => (
-                                    <PaycheckCalendarPaymentInfo weekday={dateExpense.weekday} amount={dateExpense.amount} expense={dateExpense.expense}/>
+                                    <PaycheckCalendarPaymentInfo key={dateExpense.id} weekday={dateExpense.expense_due_date} amount={dateExpense.expense_amount} expense={dateExpense.expense_name}/>
                                 ))}
                             </div>
                         </div>

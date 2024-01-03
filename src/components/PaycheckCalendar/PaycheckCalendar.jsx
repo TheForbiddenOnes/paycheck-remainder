@@ -26,7 +26,7 @@ export const PaycheckCalendar = ({date, calendarRows, selectedDate, setSelectedD
 
             {calendarRows && <tr className="bg-slate-500 divide-x divide-solid divide-slate-600">
                 { calendarRows[1].map((paydate) => (
-                    <PaycheckCalendarDate key={paydate} date={paydate}/>
+                    <PaycheckCalendarDate key={paydate} date={paydate} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
                 ))}
             </tr>}
 

@@ -33,27 +33,19 @@ export function convertSinglesToDoubles(dates) {
     })
     return newDateArray;
 }
-
 export const AbrieviateDueDate = (dueDate) => {
-    let abrieviatedDueDate;
 
-    switch (dueDate){
-        case 1:
-            abrieviatedDueDate = dueDate+"st";
-            break;
-        case 2:
-            abrieviatedDueDate = dueDate+"nd";
-            break;
-        case 3:
-            abrieviatedDueDate = dueDate+"rd";
-            break;
-        case 4:
-            abrieviatedDueDate = dueDate+"th";
-            break;
-        default:
-            abrieviatedDueDate = dueDate+"th"
-            break;
+    if (dueDate.toString().endsWith("1") && dueDate.toString().length < 2){
+        return dueDate+"st";
+    }
+    else if (dueDate.toString().endsWith("2") && !dueDate.toString().startsWith("1")){
+        return dueDate+"nd";
+    }
+    else if (dueDate.toString().endsWith("3") && !dueDate.toString().startsWith("1")){
+        return dueDate+"rd";
+    }
+    else {
+        return dueDate+"th";
     }
 
-    return abrieviatedDueDate;
 }
