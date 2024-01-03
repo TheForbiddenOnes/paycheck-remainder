@@ -135,6 +135,8 @@ export const DashboardPage = () => {
                     {/*--------First Column (Left Half)--------*/}
                     <div className="flex flex-col justify-center space-y-4 h-full w-full p-4 bg-slate-700 rounded-l-xl">
 
+                        <p className="bg-slate-900 text-lg p-3 font-thin rounded-md w-full text-center">Calculate your paycheck remainder after monthly expenses</p>
+
                         <div className="flex items-center justify-between">
                             <PaycheckCalendar date={date} calendarRows={payweekCalendarRows} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
                         </div>
