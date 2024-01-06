@@ -33,7 +33,7 @@ export function convertSinglesToDoubles(dates) {
     })
     return newDateArray;
 }
-export const AbrieviateDueDate = (dueDate) => {
+export const AddDueDateSuffix = (dueDate) => {
 
     if (dueDate.toString().endsWith("1") && dueDate.toString().length < 2){
         return dueDate+"st";
