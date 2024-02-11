@@ -179,15 +179,16 @@ export const DashboardPage = () => {
                     </div>
 
                     {/*--------Second Column (Right Half)--------*/}
-                    <div className="grid h-full w-full">
-                        <div className="grid content-center p-4 bg-slate-800 rounded-tr-xl">
+                    <div className="flex flex-col h-full w-full">
+                        <div className="grid h-full content-center p-4 bg-slate-800 rounded-tr-xl">
                             <PaycheckCalculationTable income={incomeAmount} expense={expenseAmount}/>
                         </div>
-                        <div className="grid content-center p-4 bg-slate-900 rounded-br-xl">
+                        <div className="h-full content-center p-4 bg-slate-900 rounded-br-xl">
                             <div>
                                 {selectedDateExpenses.map(dateExpense => (
                                     <PaycheckCalendarPaymentInfo key={dateExpense.id} weekday={dateExpense.expense_due_date} amount={dateExpense.expense_amount} expense={dateExpense.expense_name}/>
-                                ))}
+                                ))
+                                }
                             </div>
                         </div>
                     </div>
