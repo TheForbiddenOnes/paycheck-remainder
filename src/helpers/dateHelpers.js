@@ -35,7 +35,7 @@ export function convertSinglesToDoubles(dates) {
 }
 export const AddDueDateSuffix = (dueDate) => {
 
-    if (dueDate === ''){return null;}
+    if (dueDate === '' || dueDate === null){return null;}
 
     if (dueDate.toString().endsWith("1") && dueDate.toString().length < 2){
         return dueDate+"st";

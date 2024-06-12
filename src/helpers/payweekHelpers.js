@@ -91,8 +91,20 @@ export function getPayweekCalendarRows(payweekDates, payFrequency){
     return calendarDateRows;
 }
 
+export function getDefaultSelectedDate(){
+
+}
+
 export function getSelectedDateExpenses(selectedDate, payweekDates, date, payments) {
-    if (!selectedDate) {return [];}
+
+    console.log("selectedDate: ", selectedDate)
+    console.log("payweekDates: ", payweekDates)
+    console.log("date: ", date)
+    console.log("payments: ", payments)
+
+    // if (!selectedDate) {
+    //     return [];
+    // }
 
     let payweek = payweekDates ? payweekDates : getPayweekDates(date);
     let allPayments = payments;
@@ -105,6 +117,16 @@ export function getSelectedDateExpenses(selectedDate, payweekDates, date, paymen
                 allPaymentsForPayweekDates.push(allPayments[i]);
             }
         })
+    }
+
+    if (!selectedDate){
+
+        for (let i = 0; i < allPaymentsForPayweekDates.length; i++) {
+            if (allPaymentsForPayweekDates[i].expense_due_date === payweek[0].dayNumber) {
+                allPaymentsForSelectedDate.push(allPaymentsForPayweekDates[i]);
+            }
+        }
+        return allPaymentsForSelectedDate;
     }
 
     for (let i = 0; i < allPaymentsForPayweekDates.length; i++) {
@@ -136,3 +158,21 @@ export function getPayweekExpenseTotal(payweekDates, repeatingExpenseAmount, dat
 export function getPayweekRemainingAmount(incomeAmount, expenseAmount) {
     return incomeAmount - expenseAmount;
 }
+
+// export function getPaycheckCalculations(payweekDates, payFrequency, selectedDate, payments) {
+    // let paycheckCalculations = [];
+
+    // switch (payFrequency) {
+    //     case 'weekly':
+    //         paycheckCalculations.push(getPaycheckCalculationsWeekly(payweekDates, selectedDate, payments));
+    //         break;
+    //     case 'bi-weekly':
+    //         paycheckCalculations.push(getPaycheckCalculationsBiWeekly(payweekDates, selectedDate, payments));
+    //         break;
+    //     default:
+    //         paycheckCalculations.push(getPaycheckCalculationsWeekly(payweekDates, selectedDate, payments));
+    //         break;
+    // }
+
+    // return paycheckCalculations;
+// }

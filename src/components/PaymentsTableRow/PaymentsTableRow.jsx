@@ -1,6 +1,7 @@
 import React from 'react';
 import supabase from "../../config/supabaseClient";
 import {addCurrencyZeroes} from "../../helpers/numberFormatHelper";
+import {AddDueDateSuffix} from "../../helpers/dateHelpers";
 
 export const PaymentsTableRow = ({payment}) => {
 
@@ -21,14 +22,14 @@ export const PaymentsTableRow = ({payment}) => {
 
     return (
         <tr className="flex items-center w-full border-b bg-slate-500 border-slate-900">
-            <th scope="row" className="p-4 w-1/4 font-medium whitespace-nowrap text-white">
+            <th scope="row" className="p-4 w-1/4 font-medium uppercase whitespace-nowrap text-white">
                 {payment.expense_name}
             </th>
             <td className="p-4 w-1/4">
                 {addCurrencyZeroes(payment.expense_amount)}
             </td>
             <td className="p-4 w-1/4">
-                {payment.expense_due_date}
+                {AddDueDateSuffix(payment.expense_due_date)}
             </td>
             <td className="p-4 w-1/4">
                 <button type="button" className="bg-slate-800 w-1/3 ml-2 py-2 rounded-md" onClick={editPaymentRow}>

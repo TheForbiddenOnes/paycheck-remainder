@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Navbar} from "../../components/Navbar";
 import {PaycheckCalendarPaymentInfo} from '../../components/PaycheckCalendarPaymentInfo'
 import {PaycheckCalendar} from "../../components/PaycheckCalendar"
-import {PaycheckCalculationTable} from "../../components/PaycheckCalculationTable"
-import {getCorrectDate, formatDate} from "../../helpers/dateHelpers";
+import {PaycheckCalculations} from "../../components/PaycheckCalculations"
+import {getCorrectDate, formatDate, AddDueDateSuffix} from "../../helpers/dateHelpers";
 import {
+    getDefaultSelectedDate, getPaycheckCalculations,
     getPayweekCalendarRows,
     getPayweekDates,
     getPayweekExpenseTotal,
-    getPayweekRemainingAmount, getSelectedDateExpenses
+    getPayweekRemainingAmount, getSelectedDate, getSelectedDateExpenses
 } from "../../helpers/payweekHelpers";
 import {CustomNumberInput} from "../../components/CustomNumberInput";
 import supabase from "../../config/supabaseClient";
@@ -16,7 +17,8 @@ import supabase from "../../config/supabaseClient";
 export const DashboardPage = () => {
 
     const [date, setDate] = useState(getCorrectDate(new Date().toLocaleDateString()));
-    const [startDate, setStartDate] = useState('')
+    const [startDate, setStartDate] = useState('');
+    console.log("startDate: ", startDate);
     const [payweekDates, setPayweekDates] = useState(null);
     const [incomeAmount, setIncomeAmount] = useState(0);
     const [expenseAmount, setExpenseAmount] = useState(0);
@@ -28,6 +30,9 @@ export const DashboardPage = () => {
     const [payments, setPayments] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedDateExpenses, setSelectedDateExpenses] = useState([]);
+    const [paycheckCalculations, setPaycheckCalculations] = useState([]);
+    // const [selectedDate, setSelectedDate] = useState(getDefaultSelectedDate());
+    // const [selectedDateExpenses, setSelectedDateExpenses] = useState(getSelectedDateExpenses());y
 
     //get payments
     useEffect(() => {
@@ -62,6 +67,26 @@ export const DashboardPage = () => {
             }
         };
         getPaycheckFrequencies();
+
+    }, [])
+    //get paycheck calculations
+    useEffect(() => {
+        const getPaycheckCalculations = async() => {
+
+            let { data, error } = await supabase
+                .from('paycheck_calculations')
+                .select('*')
+
+            if(error){
+                setPaycheckCalculations([]);
+            }
+            if(data){
+                setPaycheckCalculations(data);
+            }
+        };
+        getPaycheckCalculations();
+
+        console.log("paycheck calculations: ", paycheckCalculations);
 
     }, [])
     //get user income
@@ -102,7 +127,7 @@ export const DashboardPage = () => {
             }
         };
         getPaycheckFrequency();
-    }, [])
+    }, []);
 
     //date setter
     useEffect(() => {
@@ -122,6 +147,10 @@ export const DashboardPage = () => {
     useEffect(() => {
         setSelectedDateExpenses(getSelectedDateExpenses(selectedDate, payweekDates, date, payments));
     },[selectedDate])
+    //calculations setter
+    // useEffect(() => {
+    //     setPaycheckCalculations([payweekDates, payFrequency, selectedDate, payments]);
+    // }, [payweekDates, payFrequency, selectedDate, payments]);
 
     return (
         <div className="grid h-screen">
@@ -181,9 +210,10 @@ export const DashboardPage = () => {
                     {/*--------Second Column (Right Half)--------*/}
                     <div className="flex flex-col h-full w-full">
                         <div className="grid h-full content-center p-4 bg-slate-800 rounded-tr-xl">
-                            <PaycheckCalculationTable income={incomeAmount} expense={expenseAmount}/>
+                            <PaycheckCalculations paycheckCalculations={paycheckCalculations} startDate={startDate}/>
                         </div>
                         <div className="h-full content-center p-4 bg-slate-900 rounded-br-xl">
+                            <div>Payments on the {AddDueDateSuffix(selectedDate)}</div>
                             <div>
                                 {selectedDateExpenses.map(dateExpense => (
                                     <PaycheckCalendarPaymentInfo key={dateExpense.id} weekday={dateExpense.expense_due_date} amount={dateExpense.expense_amount} expense={dateExpense.expense_name}/>

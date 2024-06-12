@@ -47,6 +47,16 @@ export const PaymentsPage = () => {
                                        onChange={(e) => {setExpenseName(e.target.value)}}
                                 />
                             </div>
+                            {/*<div>*/}
+                            {/*    <label htmlFor="pay_frequency" className="calendar-input-label">Frequency of Payment...</label>*/}
+                            {/*    <select id="pay_frequency"*/}
+                            {/*            className="calendar-input"*/}
+                            {/*            value={payFrequency}*/}
+                            {/*            onChange={(e) => {*/}
+                            {/*                setPayFrequency(e.target.value)}}>*/}
+                            {/*        {payFrequencies.map(payFreq => (<option key={payFreq.frequency_id} value={payFreq.pay_frequency}>{payFreq.pay_frequency}</option>))}*/}
+                            {/*    </select>*/}
+                            {/*</div>*/}
                             <div>
                                 <label htmlFor="expense_amount" className="calendar-input-label">Expense Amount...</label>
                                 <CustomNumberInput id="expense_amount" numberType="decimal" adjustBy="10" inputValue={expenseAmount} setInputValue={setExpenseAmount}/>
