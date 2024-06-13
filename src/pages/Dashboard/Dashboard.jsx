@@ -5,7 +5,7 @@ import {PaycheckCalendar} from "../../components/PaycheckCalendar"
 import {PaycheckCalculations} from "../../components/PaycheckCalculations"
 import {getCorrectDate, formatDate, AddDueDateSuffix} from "../../helpers/dateHelpers";
 import {
-    getDefaultSelectedDate, getPaycheckCalculations,
+    getDefaultSelectedDate,
     getPayweekCalendarRows,
     getPayweekDates,
     getPayweekExpenseTotal,
@@ -13,6 +13,10 @@ import {
 } from "../../helpers/payweekHelpers";
 import {CustomNumberInput} from "../../components/CustomNumberInput";
 import supabase from "../../config/supabaseClient";
+import {getAllPayments} from "../../services/PaymentsService";
+import {getPaycheckFrequencies} from "../../services/PaycheckFrequenciesService";
+import {getPaycheckCalculations} from "../../services/PaycheckCalculationsService";
+import {getIncomeAmount, getPaycheckFrequency} from "../../services/PaycheckInfoService";
 
 export const DashboardPage = () => {
 
@@ -33,100 +37,27 @@ export const DashboardPage = () => {
     const [paycheckCalculations, setPaycheckCalculations] = useState([]);
     // const [selectedDate, setSelectedDate] = useState(getDefaultSelectedDate());
     // const [selectedDateExpenses, setSelectedDateExpenses] = useState(getSelectedDateExpenses());y
+    const [fetchError, setFetchError] = useState(null);
 
     //get payments
     useEffect(() => {
-        const getPayments = async () => {
-            const {data, error} = await supabase
-                .from('payments')
-                .select()
-
-            if (error) {
-                setPayments([]);
-            }
-            if (data) {
-                setPayments(data);
-            }
-        };
-        getPayments();
-
+        getAllPayments(setPayments, setFetchError);
     }, []);
     //get paycheck frequencies
     useEffect(() => {
-        const getPaycheckFrequencies = async() => {
-
-            let { data, error } = await supabase
-                .from('pay_frequencies')
-                .select('*')
-
-            if(error){
-                setPayFrequencies([]);
-            }
-            if(data){
-                setPayFrequencies(data);
-            }
-        };
-        getPaycheckFrequencies();
-
+        getPaycheckFrequencies(setPayFrequencies, setFetchError);
     }, [])
     //get paycheck calculations
     useEffect(() => {
-        const getPaycheckCalculations = async() => {
-
-            let { data, error } = await supabase
-                .from('paycheck_calculations')
-                .select('*')
-
-            if(error){
-                setPaycheckCalculations([]);
-            }
-            if(data){
-                setPaycheckCalculations(data);
-            }
-        };
-        getPaycheckCalculations();
-
-        console.log("paycheck calculations: ", paycheckCalculations);
-
+        getPaycheckCalculations(setPaycheckCalculations, setFetchError);
     }, [])
     //get user income
     useEffect(() => {
-        const getIncomeAmount = async () => {
-            const { data, error } = await supabase
-                .from('paycheck_info')
-                .select('income_amount')
-
-            // console.log('income amount data :', data)
-            if(error){
-                setIncomeAmount(0);
-            }
-            if (data){
-                data.map(d => {
-                    setIncomeAmount(d.income_amount);
-                })
-            }
-        };
-        getIncomeAmount();
-
+        getIncomeAmount(setIncomeAmount, setFetchError);
     }, []);
     //get user paycheck frequency
     useEffect(() => {
-        const getPaycheckFrequency = async () => {
-
-            let { data, error } = await supabase
-                .from('paycheck_info')
-                .select('paycheck_frequency')
-
-            if (error){
-                setPayFrequency('weekly')
-            }
-            if (data){
-                data.map(d => {
-                    setPayFrequency(d.paycheck_frequency);
-                })
-            }
-        };
-        getPaycheckFrequency();
+        getPaycheckFrequency(setPayFrequency, setFetchError);
     }, []);
 
     //date setter

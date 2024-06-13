@@ -16,20 +16,6 @@ export const getAllPayments = async (setPayments, setFetchError) => {
     }
 }
 
-
-export const getPayments = async () => {
-    const {data, error} = await supabase
-        .from('payments')
-        .select()
-
-    if (error) {
-        return error;
-    }
-    if (data) {
-        return data;
-    }
-}
-
 export const addPayment = async (expenseName, expenseAmount, expenseDueDate) => {
     const { data, error } = await supabase
         .from('payments')
