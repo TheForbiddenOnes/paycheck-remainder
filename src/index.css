@@ -14,6 +14,24 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+input[type="date"] {
+    -webkit-appearance: none; /* Removes default styling in Safari */
+    -moz-appearance: none; /* Removes default styling in Firefox */
+    appearance: none; /* Standard way to remove default styling */
+    border: none; /* Removes default border */
+    background: none; /* Removes default background */
+    padding: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+    font-family: inherit; /* Inherit font from parent */
+    font-size: inherit; /* Inherit font size from parent */
+    color: inherit; /* Inherit color from parent */
+    outline: none; /* Removes default focus outline */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
 .btn-main {
     @apply rounded-md bg-gradient-to-r from-slate-700 to-slate-800 p-3 my-2 mx-2 w-1/6 text-center;
 }

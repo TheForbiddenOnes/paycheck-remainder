@@ -32,7 +32,7 @@ export const PaymentsPage = () => {
             <div className="flex flex-col">
 
                 {/*--------Navbar--------*/}
-                <Navbar/>
+                {/*<Navbar/>*/}
 
                 {/*--------Main Content--------*/}
                 <div className="grid grid-cols-1 h-full p-4">

@@ -1,16 +1,20 @@
-import React from 'react';
-import {addCurrencyZeroes} from "../../helpers/numberFormatHelper";
-import {AddDueDateSuffix} from "../../helpers/dateHelpers";
+import React from "react";
+import { addCurrencyZeroes } from "../../helpers/numberFormatHelper";
+import { AddDueDateSuffix } from "../../helpers/dateHelpers";
 
-export const PaycheckCalendarPaymentInfo = ({weekday, amount, expense}) => {
+export const PaycheckCalendarPaymentInfo = ({ weekday, amount, expense }) => {
+  const customCss =
+    weekday !== "" ? "border-b py-1.5 border-slate-700 border-solid" : "";
 
-    const customCss = weekday !== '' ? "border-b pb-4 border-gray-400 border-dashed" : "";
-
-    return (
-        <div className={customCss}>
-            <p className="pt-2 text-xs font-light leading-3 text-gray-500 dark:text-gray-300">{AddDueDateSuffix(weekday)}</p>
-            <a tabIndex="0" className="focus:outline-none text-lg font-medium leading-5 text-gray-800 dark:text-gray-100 mt-2">{addCurrencyZeroes(amount)}</a>
-            <p className="text-sm pt-2 leading-4 leading-none text-gray-600 dark:text-gray-300">{expense}</p>
-        </div>
-    );
-}
+  return (
+    <div className={customCss}>
+      <a
+        tabIndex="0"
+        className="mt-2 text-lg font-medium leading-5 text-slate-200 focus:outline-none"
+      >
+        {addCurrencyZeroes(amount)}
+      </a>
+      <p className="pt-0.5 text-sm leading-none text-slate-400">{expense}</p>
+    </div>
+  );
+};

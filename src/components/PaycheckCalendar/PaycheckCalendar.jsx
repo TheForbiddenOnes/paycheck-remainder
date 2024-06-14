@@ -1,37 +1,59 @@
-import React, {useEffect, useState} from 'react';
-import {PaycheckCalendarDate} from "../PaycheckCalendarDate";
-import {PaycheckCalendarHeader} from "../PaycheckCalendarHeader";
-import {getPayweekDays} from "../../helpers/payweekHelpers";
-import {convertSinglesToDoubles} from "../../helpers/dateHelpers";
+import React, { useEffect, useState } from "react";
+import { PaycheckCalendarDate } from "../PaycheckCalendarDate";
+import { PaycheckCalendarHeader } from "../PaycheckCalendarHeader";
+import { getPayweekDays } from "../../helpers/payweekHelpers";
+import { convertSinglesToDoubles } from "../../helpers/dateHelpers";
 
-export const PaycheckCalendar = ({date, calendarRows, selectedDate, setSelectedDate}) => {
+export const PaycheckCalendar = ({
+  date,
+  calendarRows,
+  selectedDate,
+  setSelectedDate,
+}) => {
+  const paycheckWeekdays = getPayweekDays(date);
+  const [selection, setSelection] = useState(false);
 
-    const paycheckWeekdays = getPayweekDays(date);
+  return (
+    <table className="w-full">
+      <thead>
+        <tr className="bg-slate-900 text-slate-600">
+          {paycheckWeekdays.map((weekday) => (
+            <PaycheckCalendarHeader
+              key={weekday.id}
+              weekday={weekday.weekday}
+            />
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {calendarRows && (
+          <tr className="bg-slate-900">
+            {calendarRows[0].map((paydate) => (
+              <PaycheckCalendarDate
+                key={paydate}
+                date={paydate}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+            ))}
+          </tr>
+        )}
 
-    return (
-        <table className="w-full overflow-hidden rounded-md">
-            <thead>
-            <tr className="bg-slate-900 divide-x divide-solid divide-slate-400">
-                { paycheckWeekdays.map((weekday) => (
-                    <PaycheckCalendarHeader key={weekday.id} weekday={weekday.weekday}/>
-                ))}
-            </tr>
-            </thead>
-            <tbody className="divide-y divide-solid divide-slate-600">
-            {calendarRows && <tr className="bg-slate-500 divide-x divide-solid divide-slate-600">
-                { calendarRows[0].map((paydate) => (
-                    <PaycheckCalendarDate key={paydate} date={paydate} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-                ))}
-            </tr>}
-
-            {calendarRows && <tr className="bg-slate-500 divide-x divide-solid divide-slate-600">
-                { calendarRows[1].map((paydate) => (
-                    <PaycheckCalendarDate key={paydate} date={paydate} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-                ))}
-            </tr>}
-
-            </tbody>
-        </table>
-
-    );
+        {calendarRows && (
+          <tr className="bg-slate-900">
+            {calendarRows[1].map((paydate) => (
+              <PaycheckCalendarDate
+                key={paydate}
+                date={paydate}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                selection={selection}
+                setSelection={setSelection}
+              />
+            ))}
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
 };
