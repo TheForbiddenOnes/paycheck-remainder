@@ -111,21 +111,37 @@ export const DashboardPage = () => {
       <Navbar />
       <article
         id="main-content"
-        className="col-span-23 row-span-full grid grid-cols-12 grid-rows-4 bg-slate-900 outline outline-1 outline-offset-0 outline-slate-700"
+        className="col-span-23 row-span-full grid grid-cols-12 grid-rows-4 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
       >
         <article
           id="left"
-          className="col-span-2 row-span-full grid grid-flow-row grid-rows-24 bg-slate-900 outline outline-1 outline-offset-0 outline-slate-700"
+          className="col-span-2 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
         >
           <article
             id="a"
-            className="col-span-1 content-center bg-slate-900 px-2 text-slate-400 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            Calculate Remainder
+            Remainder
           </article>
           <article
             id="b"
-            className="col-span-1 row-span-18 bg-slate-900 px-4 py-4 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-2 content-center bg-gray-900 text-center outline outline-1 outline-offset-0 outline-gray-700"
+          >
+            <p className="text-2xl">
+              {incomeAmount && expenseAmount
+                ? `${"$" + (incomeAmount - expenseAmount).toFixed(2)}`
+                : `${"$" + "0.00"}`}
+            </p>
+          </article>
+          <article
+            id="c"
+            className="col-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+          >
+            CalculateRemainder
+          </article>
+          <article
+            id="d"
+            className="col-span-1 row-span-20 bg-gray-900 px-4 py-4 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <CustomNumberInput
               id="current_avg_income"
@@ -154,34 +170,20 @@ export const DashboardPage = () => {
             />
             <CustomDateInput startDate={startDate} setDate={setDate} />
           </article>
-          <article
-            id="c"
-            className="col-span-1 content-center bg-slate-900 px-2 text-slate-400 outline outline-1 outline-offset-0 outline-slate-700"
-          >
-            Remainder
-          </article>
-          <article
-            id="d"
-            className="col-span-1 row-span-4 content-center bg-slate-900 text-center outline outline-1 outline-offset-0 outline-slate-700"
-          >
-            <p className="pb-6 text-2xl">
-              ${(incomeAmount - expenseAmount).toFixed(2)}
-            </p>
-          </article>
         </article>
         <article
           id="center"
-          className="col-span-4 row-span-full grid grid-flow-row grid-rows-24 bg-slate-900 outline outline-1 outline-offset-0 outline-slate-700"
+          className="col-span-4 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
         >
           <article
             id="e"
-            className="col-span-1 row-span-1 content-center bg-slate-900 px-2 text-slate-400 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             Current Pay Period
           </article>
           <article
             id="f"
-            className="col-span-1 row-span-8 content-center bg-slate-900 px-2 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-8 content-center bg-gray-900 px-2 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <PaycheckCalendar
               date={date}
@@ -192,15 +194,15 @@ export const DashboardPage = () => {
           </article>
           <article
             id="g"
-            className="col-span-1 row-span-1 content-center bg-slate-900 px-2 text-slate-400 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             Selected Date Expenses
           </article>
           <article
             id="h"
-            className="col-span-1 row-span-14 content-start bg-slate-900 px-4 py-4 text-slate-400 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-14 content-start bg-gray-900 px-4 py-4 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            <div className="pb-2 text-slate-600">
+            <div className="pb-2 text-gray-600">
               Payments on the {AddDueDateSuffix(selectedDate)}
             </div>
             <div>
@@ -217,17 +219,17 @@ export const DashboardPage = () => {
         </article>
         <article
           id="right"
-          className="col-span-6 row-span-full grid grid-flow-row grid-rows-24 bg-slate-900 outline outline-1 outline-offset-0 outline-slate-700"
+          className="col-span-6 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
         >
           <article
             id="h"
-            className="col-span-1 row-span-1 content-center bg-slate-900 px-2 text-slate-400 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             Monthly Expenses
           </article>
           <article
             id="i"
-            className="col-span-1 row-span-23 bg-slate-900 outline outline-1 outline-offset-0 outline-slate-700"
+            className="col-span-1 row-span-23 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <PaymentsPage />
           </article>

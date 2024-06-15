@@ -19,7 +19,7 @@ export const CustomDropdown = ({
   return (
     <div className={"relative text-sm " + customClassNames}>
       <button
-        className="bg-slate-850 block h-8 w-full rounded-sm pl-2 outline outline-1 outline-offset-0 outline-slate-700"
+        className="bg-gray-850 block h-8 w-full rounded-sm pl-2 outline outline-1 outline-offset-0 outline-gray-700"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex justify-between">
@@ -28,11 +28,11 @@ export const CustomDropdown = ({
         </div>
       </button>
       {isOpen && (
-        <ul className="bg-slate-850 absolute mt-1 w-full rounded-sm shadow-lg outline outline-1 outline-offset-0 outline-slate-700">
+        <ul className="bg-gray-850 absolute mt-1 w-full rounded-sm shadow-lg outline outline-1 outline-offset-0 outline-gray-700">
           {options.map((option) => (
             <li
               key={option.id}
-              className="cursor-pointer px-2 py-1 hover:bg-slate-800"
+              className="cursor-pointer px-2 py-1 hover:bg-gray-800"
               onClick={() => handleSelect(option.value)}
             >
               {option.value}

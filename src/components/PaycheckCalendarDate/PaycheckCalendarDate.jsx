@@ -8,8 +8,8 @@ export const PaycheckCalendarDate = ({
   const isSelected = selectedDate === date;
 
   let customCss = isSelected
-    ? "py-4 px-2 cursor-pointer flex w-full justify-center rounded-sm bg-slate-800 outline outline-offset-0 outline-1 outline-slate-600 active:bg-slate-700"
-    : "py-4 px-2 cursor-pointer flex w-full justify-center hover:rounded-sm hover:bg-slate-800 hover:outline hover:outline-offset-0 hover:outline-1 hover:outline-slate-600 active:bg-slate-700";
+    ? "py-4 px-2 cursor-pointer flex w-full justify-center rounded-sm bg-gray-800 outline outline-offset-0 outline-1 outline-gray-600 active:bg-gray-700"
+    : "py-4 px-2 cursor-pointer flex w-full justify-center hover:rounded-sm hover:bg-gray-800 hover:outline hover:outline-offset-0 hover:outline-1 hover:outline-gray-600 active:bg-gray-700";
 
   const handleClick = () => {
     setSelectedDate(date);

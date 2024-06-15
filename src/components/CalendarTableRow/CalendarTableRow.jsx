@@ -1,16 +1,15 @@
-import React from 'react';
+import React from "react";
 
-export const CalendarTableRow = ({rowType}) => {
-    return (
-        <tr className="bg-slate-900 divide-x divide-solid divide-slate-400">
-            {/*Todo: Write if check for rowType=header to show either <PaycheckCalendarHeader/>(<th> tag) or <PaycheckCalendarDate/>(<td> tag)*/}
+export const CalendarTableRow = ({ rowType }) => {
+  return (
+    <tr className="divide-x divide-solid divide-gray-400 bg-gray-900">
+      {/*Todo: Write if check for rowType=header to show either <PaycheckCalendarHeader/>(<th> tag) or <PaycheckCalendarDate/>(<td> tag)*/}
 
-
-            <th>
-                <div className="w-full flex justify-center">
-                    <p className="text-base font-medium text-center">{rowType}</p>
-                </div>
-            </th>
-        </tr>
-    );
+      <th>
+        <div className="flex w-full justify-center">
+          <p className="text-center text-base font-medium">{rowType}</p>
+        </div>
+      </th>
+    </tr>
+  );
 };

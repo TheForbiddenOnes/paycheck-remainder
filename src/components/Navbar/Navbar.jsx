@@ -31,23 +31,16 @@ export const Navbar = () => {
   return (
     <article
       id="navbar"
-      className="col-span-1 row-span-full grid grid-rows-24 bg-slate-900 outline outline-1 outline-offset-0 outline-slate-700"
+      className="col-span-1 row-span-full grid grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
     >
-      <div className="col-start-1 row-start-2 mx-2 content-center text-slate-500 hover:cursor-pointer hover:rounded-sm hover:bg-slate-800 hover:text-slate-200 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-slate-700">
+      <div className="col-start-1 row-start-2 mx-2 content-center text-gray-500 hover:cursor-pointer hover:rounded-sm hover:bg-gray-800 hover:text-gray-200 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-gray-700">
         <Link to="/dashboard">
           <div className="flex flex-row justify-center">
             <RectangleGroupIcon className="h-6 w-6" />
           </div>
         </Link>
       </div>
-      <div className="col-start-1 row-start-3 mx-2 content-center text-slate-500 hover:cursor-pointer hover:rounded-sm hover:bg-slate-800 hover:text-slate-200 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-slate-700">
-        <Link to="/payments">
-          <div className="flex flex-row justify-center">
-            <TableCellsIcon className="h-6 w-6" />
-          </div>
-        </Link>
-      </div>
-      <div className="col-start-1 row-start-22 mx-2 content-center text-center align-middle text-slate-500 hover:cursor-pointer hover:rounded-sm hover:bg-slate-800 hover:text-slate-200 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-slate-700">
+      <div className="col-start-1 row-start-22 mx-2 content-center text-center align-middle text-gray-500 hover:cursor-pointer hover:rounded-sm hover:bg-gray-800 hover:text-gray-200 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-gray-700">
         <button className="" onClick={() => signOutUser()}>
           <div className="flex flex-row justify-center pt-2">
             <ArrowLeftStartOnRectangleIcon className="h-6 w-6" />

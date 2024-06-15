@@ -16,7 +16,7 @@ export const PaycheckCalendar = ({
   return (
     <table className="w-full">
       <thead>
-        <tr className="bg-slate-900 text-slate-600">
+        <tr className="bg-gray-900 text-gray-600">
           {paycheckWeekdays.map((weekday) => (
             <PaycheckCalendarHeader
               key={weekday.id}
@@ -27,7 +27,7 @@ export const PaycheckCalendar = ({
       </thead>
       <tbody>
         {calendarRows && (
-          <tr className="bg-slate-900">
+          <tr className="bg-gray-900">
             {calendarRows[0].map((paydate) => (
               <PaycheckCalendarDate
                 key={paydate}
@@ -40,7 +40,7 @@ export const PaycheckCalendar = ({
         )}
 
         {calendarRows && (
-          <tr className="bg-slate-900">
+          <tr className="bg-gray-900">
             {calendarRows[1].map((paydate) => (
               <PaycheckCalendarDate
                 key={paydate}
