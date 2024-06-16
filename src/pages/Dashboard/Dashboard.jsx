@@ -2,23 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { PaycheckCalendarPaymentInfo } from "../../components/PaycheckCalendarPaymentInfo";
 import { PaycheckCalendar } from "../../components/PaycheckCalendar";
-import { PaycheckCalculations } from "../../components/PaycheckCalculations";
 import {
   getCorrectDate,
   formatDate,
   AddDueDateSuffix,
 } from "../../helpers/dateHelpers";
 import {
-  getDefaultSelectedDate,
   getPayweekCalendarRows,
   getPayweekDates,
   getPayweekExpenseTotal,
   getPayweekRemainingAmount,
-  getSelectedDate,
   getSelectedDateExpenses,
 } from "../../helpers/payweekHelpers";
 import { CustomNumberInput } from "../../components/CustomNumberInput";
-import supabase from "../../config/supabaseClient";
 import { getAllPayments } from "../../services/PaymentsService";
 import { getPaycheckFrequencies } from "../../services/PaycheckFrequenciesService";
 import { getPaycheckCalculations } from "../../services/PaycheckCalculationsService";
@@ -29,14 +25,11 @@ import {
 import { PaymentsPage } from "../Payments";
 import { CustomDropdown } from "../../components/CustomDropDown";
 import { CustomDateInput } from "../../components/CustomDateInput";
-import { Datepicker } from "flowbite-react";
-import { CalculationBox } from "../../components/CalculationBox";
 export const DashboardPage = () => {
   const [date, setDate] = useState(
     getCorrectDate(new Date().toLocaleDateString()),
   );
   const [startDate, setStartDate] = useState("");
-  console.log("startDate: ", startDate);
   const [payweekDates, setPayweekDates] = useState(null);
   const [incomeAmount, setIncomeAmount] = useState(0);
   const [expenseAmount, setExpenseAmount] = useState(0);
@@ -141,7 +134,7 @@ export const DashboardPage = () => {
           </article>
           <article
             id="d"
-            className="col-span-1 row-span-20 bg-gray-900 px-4 py-4 outline outline-1 outline-offset-0 outline-gray-700"
+            className="col-span-1 row-span-20 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
           >
             <CustomNumberInput
               id="current_avg_income"
@@ -168,7 +161,17 @@ export const DashboardPage = () => {
               placeholder="Select Pay Frequency"
               customClassNames="pb-2"
             />
-            <CustomDateInput startDate={startDate} setDate={setDate} />
+            <CustomDateInput
+              startDate={startDate}
+              setDate={setDate}
+              customClassNames=""
+            />
+            <button
+              type="submit"
+              className="mt-4 h-8 w-4/12 rounded-sm bg-emerald-950 text-center text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
+            >
+              Calculate
+            </button>
           </article>
         </article>
         <article

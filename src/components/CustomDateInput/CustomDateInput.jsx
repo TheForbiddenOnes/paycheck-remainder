@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { getCorrectDate } from "../../helpers/dateHelpers";
 
-export const CustomDateInput = ({ startDate, setDate }) => {
+export const CustomDateInput = ({ startDate, setDate, customClassNames }) => {
   const inputRef = useRef(null);
 
   const handleContainerClick = () => {
@@ -13,12 +13,17 @@ export const CustomDateInput = ({ startDate, setDate }) => {
 
   return (
     <div
-      className="bg-gray-850 flex cursor-pointer items-center rounded-sm px-2 text-xs text-gray-200 outline outline-1 outline-offset-0 outline-gray-700"
+      className={
+        customClassNames
+          ? customClassNames +
+            " flex cursor-pointer items-center rounded-sm bg-gray-850 px-2 text-xs text-gray-200 outline outline-1 outline-offset-0 outline-gray-700"
+          : "flex cursor-pointer items-center rounded-sm bg-gray-850 px-2 text-xs text-gray-200 outline outline-1 outline-offset-0 outline-gray-700"
+      }
       onClick={handleContainerClick}
     >
       <input
         ref={inputRef}
-        className="bg-gray-850 rounded-xs block h-8 w-full pl-2 text-sm outline outline-1 outline-offset-0 outline-gray-700"
+        className="rounded-xs block h-8 w-full bg-gray-850 pl-2 text-sm outline outline-1 outline-offset-0 outline-gray-700"
         type="date"
         name="startDate"
         id="start_date"

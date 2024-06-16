@@ -28,7 +28,7 @@ export const PaymentsTableRow = ({ payment }) => {
         {payment.expense_name}
       </th>
       <td className="w-1/4 p-4">{addCurrencyZeroes(payment.expense_amount)}</td>
-      <td className="w-1/4 p-4">
+      <td className="w-1/4 p-4 ordinal">
         {AddDueDateSuffix(payment.expense_due_date)}
       </td>
       <td className="w-1/4 p-4">
