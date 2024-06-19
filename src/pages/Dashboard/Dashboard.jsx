@@ -25,6 +25,7 @@ import {
 import { PaymentsPage } from "../Payments";
 import { CustomDropdown } from "../../components/CustomDropDown";
 import { CustomDateInput } from "../../components/CustomDateInput";
+import { toast, ToastContainer } from "react-toastify";
 export const DashboardPage = () => {
   const [date, setDate] = useState(
     getCorrectDate(new Date().toLocaleDateString()),
@@ -42,9 +43,9 @@ export const DashboardPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDateExpenses, setSelectedDateExpenses] = useState([]);
   const [paycheckCalculations, setPaycheckCalculations] = useState([]);
-  // const [selectedDate, setSelectedDate] = useState(getDefaultSelectedDate());
-  // const [selectedDateExpenses, setSelectedDateExpenses] = useState(getSelectedDateExpenses());y
   const [fetchError, setFetchError] = useState(null);
+
+  const notify = () => toast("Saved calculation values");
 
   //get payments
   useEffect(() => {
@@ -94,10 +95,6 @@ export const DashboardPage = () => {
       getSelectedDateExpenses(selectedDate, payweekDates, date, payments),
     );
   }, [selectedDate]);
-  //calculations setter
-  // useEffect(() => {
-  //     setPaycheckCalculations([payweekDates, payFrequency, selectedDate, payments]);
-  // }, [payweekDates, payFrequency, selectedDate, payments]);
 
   return (
     <div className="grid h-screen grid-cols-24 overflow-hidden">
@@ -130,7 +127,7 @@ export const DashboardPage = () => {
             id="c"
             className="col-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            CalculateRemainder
+            Calculate Remainder
           </article>
           <article
             id="d"
@@ -168,10 +165,25 @@ export const DashboardPage = () => {
             />
             <button
               type="submit"
+              onMouseDown={notify}
               className="mt-4 h-8 w-4/12 rounded-sm bg-emerald-950 text-center text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
             >
-              Calculate
+              Save
             </button>
+            <ToastContainer
+              toastClassName="bg-emerald-950 text-center rounded-sm text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
+              icon={false}
+              position="bottom-left"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
           </article>
         </article>
         <article
@@ -234,7 +246,7 @@ export const DashboardPage = () => {
             id="i"
             className="col-span-1 row-span-23 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            <PaymentsPage />
+            <PaymentsPage expenseTotal={expenseAmount} />
           </article>
         </article>
       </article>

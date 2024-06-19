@@ -4,7 +4,7 @@ import { CustomNumberInput } from "../../components/CustomNumberInput";
 import { PaymentsTableRow } from "../../components/PaymentsTableRow";
 import { addPayment, getAllPayments } from "../../services/PaymentsService";
 
-export const PaymentsPage = () => {
+export const PaymentsPage = ({ expenseTotal }) => {
   const [fetchError, setFetchError] = useState(null);
   const [payments, setPayments] = useState(null);
 
@@ -27,7 +27,7 @@ export const PaymentsPage = () => {
   }, [payments]);
 
   return (
-    <article className="grid-rows-9 col-span-1 row-span-full grid h-screen grid-cols-12 bg-gray-900">
+    <article className="col-span-1 row-span-full grid h-screen grid-cols-12 grid-rows-9 bg-gray-900">
       <form
         onSubmit={handleSubmit}
         className="col-span-full row-span-1 flex flex-row items-end justify-center gap-4 p-6"
@@ -42,7 +42,7 @@ export const PaymentsPage = () => {
           <input
             type="text"
             id="expense_name"
-            className="bg-gray-850 block h-8 w-full rounded-sm pl-2 outline outline-1 outline-offset-0 outline-gray-700"
+            className="block h-8 w-full rounded-sm bg-gray-850 pl-2 outline outline-1 outline-offset-0 outline-gray-700"
             onChange={(e) => {
               setExpenseName(e.target.value);
             }}
@@ -96,7 +96,16 @@ export const PaymentsPage = () => {
               <th scope="col" className="w-1/4 p-2">
                 Due Date
               </th>
-              <th scope="col" className="w-1/4 p-2"></th>
+              <th scope="col" className="w-1/4 p-2">
+                <div className="flex flex-row items-center justify-center">
+                  Total
+                  <p className="pl-2 font-thin text-white">
+                    {expenseTotal
+                      ? `${"$" + expenseTotal.toFixed(2)}`
+                      : `${"$" + "0.00"}`}
+                  </p>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody className="flex h-full w-full flex-col items-center overflow-y-scroll">
@@ -109,76 +118,5 @@ export const PaymentsPage = () => {
         </table>
       </div>
     </article>
-
-    // <div className="grid h-screen">
-    //     <div className="flex flex-col">
-    //
-    //
-    //         {/*--------Main Content--------*/}
-    //         <div className="grid grid-cols-1 h-full p-4">
-    //             {/*--------First Column (Left Half)--------*/}
-    //             <div className="flex flex-col items-center justify-start space-y-4 h-full w-full p-4 bg-gray-700 rounded-l-xl rounded-r-xl">
-    //                 <p className="bg-gray-900 text-lg p-3 font-thin rounded-md w-full text-center">Add all of your reoccurring monthly payments here</p>
-    //                 <form onSubmit={handleSubmit} className="flex flex-row justify-center items-end gap-4 w-1/2 bg-gray-600 rounded-l-xl rounded-r-xl p-6">
-    //                     <div>
-    //                         <label htmlFor="expense_name" className="calendar-input-label">Name of Expense...</label>
-    //                         <input type="text" id="expense_name"
-    //                                className="calendar-input"
-    //                                onChange={(e) => {setExpenseName(e.target.value)}}
-    //                         />
-    //                     </div>
-    //                     {/*<div>*/}
-    //                     {/*    <label htmlFor="pay_frequency" className="calendar-input-label">Frequency of Payment...</label>*/}
-    //                     {/*    <select id="pay_frequency"*/}
-    //                     {/*            className="calendar-input"*/}
-    //                     {/*            value={payFrequency}*/}
-    //                     {/*            onChange={(e) => {*/}
-    //                     {/*                setPayFrequency(e.target.value)}}>*/}
-    //                     {/*        {payFrequencies.map(payFreq => (<option key={payFreq.frequency_id} value={payFreq.pay_frequency}>{payFreq.pay_frequency}</option>))}*/}
-    //                     {/*    </select>*/}
-    //                     {/*</div>*/}
-    //                     <div>
-    //                         <label htmlFor="expense_amount" className="calendar-input-label">Expense Amount...</label>
-    //                         <CustomNumberInput id="expense_amount" numberType="decimal" adjustBy="10" inputValue={expenseAmount} setInputValue={setExpenseAmount}/>
-    //                     </div>
-    //                     <div>
-    //                         <label htmlFor="expense_due_date" className="calendar-input-label">Date Expense is Due...</label>
-    //                         <CustomNumberInput id="expense_due_date" inputValue={expenseDueDate} setInputValue={setExpenseDueDate}/>
-    //                     </div>
-    //                     <button type="submit" className="btn-table-add">Add</button>
-    //                 </form>
-    //
-    //                 <div className="w-2/3 h-full bg-gray-600 rounded-lg overflow-hidden">
-    //                     <table className="w-full h-full text-center text-sm text-white">
-    //                         <thead className="text-xs text-white uppercase bg-gray-900">
-    //                         <tr className="flex items-center justify-evenly w-full ">
-    //                             <th scope="col" className="p-4 w-1/4">
-    //                                 Expense
-    //                             </th>
-    //                             <th scope="col" className="p-4 w-1/4">
-    //                                 Amount
-    //                             </th>
-    //                             <th scope="col" className="p-4 w-1/4">
-    //                                 Due Date
-    //                             </th>
-    //                             <th scope="col" className="p-4 w-1/4">
-    //
-    //                             </th>
-    //                         </tr>
-    //                         </thead>
-    //                         <tbody className="flex flex-col items-center overflow-y-scroll scrollbar scrollbar-thumb-gray-800 scrollbar-track-gray-500 hover:scrollbar-thumb-gray-600 w-full h-full">
-    //                         { fetchError && (<p>{fetchError}</p>)}
-    //                         { payments && (payments.map((payment) => (
-    //                             <PaymentsTableRow key={payment.id} payment={payment} />
-    //                         )))}
-    //                         </tbody>
-    //                     </table>
-    //                 </div>
-    //             </div>
-    //
-    //         </div>
-    //
-    //     </div>
-    // </div>
   );
 };

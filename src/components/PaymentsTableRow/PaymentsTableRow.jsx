@@ -2,6 +2,7 @@ import React from "react";
 import supabase from "../../config/supabaseClient";
 import { addCurrencyZeroes } from "../../helpers/numberFormatHelper";
 import { AddDueDateSuffix } from "../../helpers/dateHelpers";
+import { addPayment, deletePaymentRow } from "../../services/PaymentsService";
 
 export const PaymentsTableRow = ({ payment }) => {
   const editPaymentRow = async (payment) => {
@@ -12,11 +13,14 @@ export const PaymentsTableRow = ({ payment }) => {
       .select();
   };
 
-  const deletePaymentRow = async (payment) => {
-    const { error } = await supabase
-      .from("payments")
-      .delete()
-      .eq("some_column", "someValue");
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    if (!payment) {
+      return;
+    }
+
+    deletePaymentRow(payment.id);
   };
 
   return (
@@ -42,7 +46,7 @@ export const PaymentsTableRow = ({ payment }) => {
         <button
           type="button"
           className="ml-2 w-1/3 rounded-sm bg-gray-800 py-2 outline outline-1 outline-offset-0 outline-gray-600 hover:bg-gray-700"
-          onClick={deletePaymentRow}
+          onClick={handleDelete}
         >
           Delete
         </button>
