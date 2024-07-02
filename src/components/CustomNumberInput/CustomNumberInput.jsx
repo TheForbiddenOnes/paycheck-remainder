@@ -10,6 +10,7 @@ export const CustomNumberInput = ({
   adjustBy,
   placeholder,
   customClassNames,
+  defaultValue,
 }) => {
   const adjustByValue = (adjustBy, numberType) => {
     let adjustValue = 1;
@@ -34,6 +35,7 @@ export const CustomNumberInput = ({
   return (
     <div id={id} className={"flex flex-row text-xs " + customClassNames}>
       <input
+        defaultValue={defaultValue}
         type="number"
         inputMode="decimal"
         min="0.01"
@@ -61,7 +63,9 @@ export const CustomNumberInput = ({
           type="button"
           className="flex h-4 content-center items-center rounded-tr-sm bg-gray-850 outline outline-1 outline-offset-0 outline-gray-700 hover:bg-gray-800 hover:text-white hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-gray-700 active:bg-gray-700"
           onMouseDown={() => {
-            setInputValue(inputValue + adjustByValue(adjustBy, numberType));
+            setInputValue(
+              Number(inputValue) + adjustByValue(adjustBy, numberType),
+            );
           }}
         >
           <ChevronUpIcon className="scale-25"></ChevronUpIcon>
@@ -72,7 +76,9 @@ export const CustomNumberInput = ({
           type="button"
           className="flex h-4 content-center items-center rounded-br-sm bg-gray-850 outline outline-1 outline-offset-0 outline-gray-700 hover:bg-gray-800 hover:text-white hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-gray-700 active:bg-gray-700"
           onMouseDown={() => {
-            setInputValue(inputValue - adjustByValue(adjustBy, numberType));
+            setInputValue(
+              Number(inputValue) - adjustByValue(adjustBy, numberType),
+            );
           }}
         >
           <ChevronDownIcon className="scale-25"></ChevronDownIcon>

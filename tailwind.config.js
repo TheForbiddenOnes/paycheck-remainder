@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        58: "14.25rem",
+      },
       colors: {
         gray: {
           850: "rgba(11,18,33,0.79)",

@@ -10,6 +10,7 @@ export const getAllPayments = async (setPayments, setFetchError) => {
   }
   if (data) {
     setPayments(data);
+    console.log("I set it");
     setFetchError(null);
   }
 };
@@ -29,6 +30,25 @@ export const addPayment = async (
       },
     ])
     .select();
+};
+
+export const editPaymentRow = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("payments")
+      .update({
+        // expense_name: expenseName,
+        // expense_amount: expenseAmount,
+        // expense_due_date: expenseDueDate,
+      })
+      .eq("id", id)
+      .select();
+
+    if (error) throw error;
+    // window.location.reload();
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
 export const deletePaymentRow = async (id) => {

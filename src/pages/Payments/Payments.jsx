@@ -4,9 +4,8 @@ import { CustomNumberInput } from "../../components/CustomNumberInput";
 import { PaymentsTableRow } from "../../components/PaymentsTableRow";
 import { addPayment, getAllPayments } from "../../services/PaymentsService";
 
-export const PaymentsPage = ({ expenseTotal }) => {
+export const PaymentsPage = ({ payments }) => {
   const [fetchError, setFetchError] = useState(null);
-  const [payments, setPayments] = useState(null);
 
   const [expenseName, setExpenseName] = useState("");
   const [expenseAmount, setExpenseAmount] = useState(0);
@@ -21,10 +20,6 @@ export const PaymentsPage = ({ expenseTotal }) => {
 
     addPayment(expenseName, expenseAmount, expenseDueDate);
   };
-
-  useEffect(() => {
-    getAllPayments(setPayments, setFetchError);
-  }, [payments]);
 
   return (
     <article className="col-span-1 row-span-full grid h-screen grid-cols-12 grid-rows-9 bg-gray-900">
@@ -96,16 +91,7 @@ export const PaymentsPage = ({ expenseTotal }) => {
               <th scope="col" className="w-1/4 p-2">
                 Due Date
               </th>
-              <th scope="col" className="w-1/4 p-2">
-                <div className="flex flex-row items-center justify-center">
-                  Total
-                  <p className="pl-2 font-thin text-white">
-                    {expenseTotal
-                      ? `${"$" + expenseTotal.toFixed(2)}`
-                      : `${"$" + "0.00"}`}
-                  </p>
-                </div>
-              </th>
+              <th scope="col" className="w-1/4 p-2"></th>
             </tr>
           </thead>
           <tbody className="flex h-full w-full flex-col items-center overflow-y-scroll">

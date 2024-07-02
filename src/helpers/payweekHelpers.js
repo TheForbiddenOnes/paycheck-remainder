@@ -143,6 +143,14 @@ export function getSelectedDateExpenses(
   return allPaymentsForSelectedDate;
 }
 
+export function getSelectedDateExpenseTotal(selectedDateExpenses) {
+  let total = 0;
+  for (let i = 0; i < selectedDateExpenses.length; i++) {
+    total = total + selectedDateExpenses[i].expense_amount;
+  }
+  return total.toFixed(2);
+}
+
 export function getPayweekExpenseTotal(
   payweekDates,
   repeatingExpenseAmount,
@@ -152,7 +160,6 @@ export function getPayweekExpenseTotal(
   let payweek = payweekDates ? payweekDates : getPayweekDates(date);
   let paymentTotals = 0;
   let allPayments = payments;
-  console.log(allPayments);
 
   for (let i = 0; i < allPayments.length; i++) {
     payweek.forEach((pd) => {
@@ -161,9 +168,17 @@ export function getPayweekExpenseTotal(
       }
     });
   }
-
-  return paymentTotals + repeatingExpenseAmount;
+  return paymentTotals;
 }
+
+export function getAllPaymentsTotal(payments) {
+  let total = 0;
+  for (let i = 0; i < payments.length; i++) {
+    total = total + payments[i].expense_amount;
+  }
+  return total.toFixed(2);
+}
+
 export function getPayweekRemainingAmount(incomeAmount, expenseAmount) {
   return incomeAmount - expenseAmount;
 }

@@ -2,30 +2,39 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { PaycheckCalendarPaymentInfo } from "../../components/PaycheckCalendarPaymentInfo";
 import { PaycheckCalendar } from "../../components/PaycheckCalendar";
+import { CustomNumberInput } from "../../components/CustomNumberInput";
+import { getAllPayments } from "../../services/PaymentsService";
+import { getPaycheckFrequencies } from "../../services/PaycheckFrequenciesService";
+import { getPaycheckCalculations } from "../../services/PaycheckCalculationsService";
+import { PaymentsPage } from "../Payments";
+import { CustomDropdown } from "../../components/CustomDropDown";
+import { CustomDateInput } from "../../components/CustomDateInput";
+import { toast, ToastContainer } from "react-toastify";
+import { RepeatingExpenses } from "../../components/RepeatingExpenses";
+import supabase from "../../config/supabaseClient";
 import {
   getCorrectDate,
   formatDate,
   AddDueDateSuffix,
 } from "../../helpers/dateHelpers";
 import {
+  getAllPaymentsTotal,
   getPayweekCalendarRows,
   getPayweekDates,
   getPayweekExpenseTotal,
   getPayweekRemainingAmount,
   getSelectedDateExpenses,
+  getSelectedDateExpenseTotal,
 } from "../../helpers/payweekHelpers";
-import { CustomNumberInput } from "../../components/CustomNumberInput";
-import { getAllPayments } from "../../services/PaymentsService";
-import { getPaycheckFrequencies } from "../../services/PaycheckFrequenciesService";
-import { getPaycheckCalculations } from "../../services/PaycheckCalculationsService";
 import {
+  addPaycheckInfo,
+  getId,
+  getIds,
   getIncomeAmount,
   getPaycheckFrequency,
+  updatePaycheckInfo,
 } from "../../services/PaycheckInfoService";
-import { PaymentsPage } from "../Payments";
-import { CustomDropdown } from "../../components/CustomDropDown";
-import { CustomDateInput } from "../../components/CustomDateInput";
-import { toast, ToastContainer } from "react-toastify";
+
 export const DashboardPage = () => {
   const [date, setDate] = useState(
     getCorrectDate(new Date().toLocaleDateString()),
@@ -35,8 +44,9 @@ export const DashboardPage = () => {
   const [incomeAmount, setIncomeAmount] = useState(0);
   const [expenseAmount, setExpenseAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
-  const [repeatingExpenseAmount, setRepeatingExpenseAmount] = useState(0);
-  const [payFrequency, setPayFrequency] = useState("Weekly");
+  const [repeatingExpenses, setRepeatingExpenses] = useState({});
+  const [repeatingExpenseTotal, setRepeatingExpenseTotal] = useState(0);
+  const [payFrequency, setPayFrequency] = useState(null);
   const [payFrequencies, setPayFrequencies] = useState([]);
   const [payweekCalendarRows, setPayweekCalendarRows] = useState(null);
   const [payments, setPayments] = useState([]);
@@ -44,6 +54,11 @@ export const DashboardPage = () => {
   const [selectedDateExpenses, setSelectedDateExpenses] = useState([]);
   const [paycheckCalculations, setPaycheckCalculations] = useState([]);
   const [fetchError, setFetchError] = useState(null);
+  const [userUUID, setUserUUID] = useState(null);
+  const [ids, setIds] = useState([]);
+
+  console.log("payFrequency : ", payFrequency);
+  console.log("payFrequency type : ", typeof payFrequency);
 
   const notify = () => toast("Saved calculation values");
 
@@ -67,7 +82,20 @@ export const DashboardPage = () => {
   useEffect(() => {
     getPaycheckFrequency(setPayFrequency, setFetchError);
   }, []);
+  //get user uuid
+  useEffect(() => {
+    const getUserUUID = async () => {
+      const user = supabase.auth.getUser();
 
+      if (user) {
+        setUserUUID((await user).data.user.id);
+      } else {
+        console.log("Failed UserUUID Retrieval - No authenticated user");
+      }
+    };
+
+    getUserUUID();
+  }, []);
   //date setter
   useEffect(() => {
     setStartDate(formatDate(date));
@@ -78,13 +106,13 @@ export const DashboardPage = () => {
     setExpenseAmount(
       getPayweekExpenseTotal(
         payweekDates,
-        repeatingExpenseAmount,
+        repeatingExpenseTotal,
         date,
         payments,
       ),
     );
     setRemainingAmount(getPayweekRemainingAmount(incomeAmount, expenseAmount));
-  }, [payweekDates, incomeAmount, repeatingExpenseAmount, payments]);
+  }, [payweekDates, incomeAmount, repeatingExpenseTotal, payments]);
   //calendar setter
   useEffect(() => {
     setPayweekCalendarRows(getPayweekCalendarRows(payweekDates, payFrequency));
@@ -95,6 +123,36 @@ export const DashboardPage = () => {
       getSelectedDateExpenses(selectedDate, payweekDates, date, payments),
     );
   }, [selectedDate]);
+
+  const savePaycheckInfo = () => {
+    console.log("userUUID length : ", getId(userUUID).length);
+    if (getId(userUUID).length > 0) {
+      console.log("userUUID : ", userUUID);
+      updatePaycheckInfo(
+        userUUID,
+        incomeAmount,
+        payFrequency,
+        repeatingExpenses,
+        fetchError,
+        setIncomeAmount,
+        setPayFrequency,
+        setFetchError,
+      );
+    } else {
+      console.log("No userUUID : ", userUUID);
+      addPaycheckInfo(
+        userUUID,
+        incomeAmount,
+        payFrequency,
+        repeatingExpenses,
+        fetchError,
+        setIncomeAmount,
+        setPayFrequency,
+        setFetchError,
+      );
+    }
+    notify();
+  };
 
   return (
     <div className="grid h-screen grid-cols-24 overflow-hidden">
@@ -119,7 +177,7 @@ export const DashboardPage = () => {
           >
             <p className="text-2xl">
               {incomeAmount && expenseAmount
-                ? `${"$" + (incomeAmount - expenseAmount).toFixed(2)}`
+                ? `${"$" + (incomeAmount - (expenseAmount + repeatingExpenseTotal)).toFixed(2)}`
                 : `${"$" + "0.00"}`}
             </p>
           </article>
@@ -142,15 +200,6 @@ export const DashboardPage = () => {
               placeholder="Current Average Income"
               customClassNames="pb-2"
             ></CustomNumberInput>
-            <CustomNumberInput
-              id="repeating_expense"
-              inputValue={repeatingExpenseAmount}
-              setInputValue={setRepeatingExpenseAmount}
-              numberType="decimal"
-              adjustBy="50"
-              placeholder="Repeating Expenses"
-              customClassNames="pb-2"
-            ></CustomNumberInput>
             <CustomDropdown
               options={payFrequencies}
               selected={payFrequency}
@@ -164,12 +213,20 @@ export const DashboardPage = () => {
               customClassNames=""
             />
             <button
-              type="submit"
-              onMouseDown={notify}
+              type="button"
+              onMouseDown={savePaycheckInfo}
               className="mt-4 h-8 w-4/12 rounded-sm bg-emerald-950 text-center text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
             >
               Save
             </button>
+            <RepeatingExpenses
+              userUUID={userUUID}
+              repeatingExpenses={repeatingExpenses}
+              setRepeatingExpenses={setRepeatingExpenses}
+              repeatingExpenseTotal={repeatingExpenseTotal}
+              setRepeatingExpenseTotal={setRepeatingExpenseTotal}
+              setFetchError={setFetchError}
+            />
             <ToastContainer
               toastClassName="bg-emerald-950 text-center rounded-sm text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
               icon={false}
@@ -192,9 +249,10 @@ export const DashboardPage = () => {
         >
           <article
             id="e"
-            className="col-span-1 row-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            Current Pay Period
+            <div className="">Current Pay Period</div>
+            <div className="">{`Total: $${expenseAmount.toFixed(2)}`}</div>
           </article>
           <article
             id="f"
@@ -209,9 +267,10 @@ export const DashboardPage = () => {
           </article>
           <article
             id="g"
-            className="col-span-1 row-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            Selected Date Expenses
+            <div className="">Selected Date Expenses</div>
+            <div className="">{`Total: $${getSelectedDateExpenseTotal(selectedDateExpenses)}`}</div>
           </article>
           <article
             id="h"
@@ -238,15 +297,16 @@ export const DashboardPage = () => {
         >
           <article
             id="h"
-            className="col-span-1 row-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            Monthly Expenses
+            <p className="">Monthly Expenses</p>
+            <p className="">{`Total: $${getAllPaymentsTotal(payments)}`}</p>
           </article>
           <article
             id="i"
             className="col-span-1 row-span-23 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            <PaymentsPage expenseTotal={expenseAmount} />
+            <PaymentsPage payments={payments} expenseTotal={expenseAmount} />
           </article>
         </article>
       </article>
