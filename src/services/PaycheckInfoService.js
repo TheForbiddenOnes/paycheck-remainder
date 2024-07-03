@@ -5,7 +5,7 @@ export const getIds = async (setIds, setFetchError) => {
 
   if (error) {
     setFetchError("Could not fetch the paycheck info");
-    console.log(error);
+    console.log("paycheckInfoService getIds error : ", error);
   }
   if (data) {
     setIds(data);
@@ -35,7 +35,7 @@ export const getIncomeAmount = async (setIncomeAmount, setFetchError) => {
   if (error) {
     setFetchError("Could not fetch the income amount");
     setIncomeAmount(0);
-    console.log(error);
+    console.log("PaycheckInfoService getIncomeAmount error : ", error);
   }
   if (data) {
     data.map((d) => {
@@ -73,10 +73,13 @@ export const getPerPaycheckExpenses = async (
   if (error) {
     setFetchError("Could not fetch the per paycheck expenses");
     // setPerPaycheckExpenses({});
-    console.log("getPerPaycheckExpenses Service: ", error);
+    console.log("getPerPaycheckExpenses Service error: ", error);
   }
   if (data) {
-    setPerPaycheckExpenses(data);
+    data.map((d) => {
+      console.log("data.map d: ", d.per_paycheck_expenses);
+      setPerPaycheckExpenses(d.per_paycheck_expenses);
+    });
     setFetchError(null);
   }
 };
@@ -87,6 +90,12 @@ export const updatePerPaycheckExpenses = async (
   setPerPaycheckExpenses,
   setFetchError,
 ) => {
+  console.log("updatePerPaycheckExpenses userId : ", userId);
+  console.log(
+    "updatePerPaycheckExpenses perPaycheckExpenses : ",
+    perPaycheckExpenses,
+  );
+
   const { data, error } = await supabase
     .from("paycheck_info")
     .update({ per_paycheck_expenses: perPaycheckExpenses })
@@ -95,9 +104,10 @@ export const updatePerPaycheckExpenses = async (
 
   if (error) {
     setFetchError("Could not update the per paycheck expenses");
-    console.log("updatePerPaycheckExpenses Service: ", error);
+    console.log("updatePerPaycheckExpenses error: ", error);
   }
   if (data) {
+    console.log("updatePerPaycheckExpenses data: ", data);
     setPerPaycheckExpenses(perPaycheckExpenses);
     setFetchError(null);
   }

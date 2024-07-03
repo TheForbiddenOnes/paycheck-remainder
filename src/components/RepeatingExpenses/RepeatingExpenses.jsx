@@ -18,7 +18,6 @@ export const RepeatingExpenses = ({
   setFetchError,
 }) => {
   const [AddNewRepeatingExpense, setAddNewRepeatingExpense] = useState(false);
-
   const [repeatingExpenseName, setRepeatingExpenseName] = useState("");
   const [repeatingExpenseAmount, setRepeatingExpenseAmount] = useState(0);
 
@@ -31,7 +30,6 @@ export const RepeatingExpenses = ({
     if (!expenseName || !expenseAmount || expenseName === "") {
       return;
     }
-    console.log("expenses: ", expenses);
     expenses[expenseName] = expenseAmount;
     updatePerPaycheckExpenses(
       userId,
@@ -55,21 +53,20 @@ export const RepeatingExpenses = ({
     getPerPaycheckExpenses(setRepeatingExpenses, setFetchError);
   }, []);
 
-  useEffect(() => {
-    updatePerPaycheckExpenses(
-      userUUID,
-      repeatingExpenses,
-      setRepeatingExpenses,
-      setFetchError,
-    );
-  }, []);
+  // useEffect(() => {
+  //   updatePerPaycheckExpenses(
+  //     userUUID,
+  //     repeatingExpenses,
+  //     setRepeatingExpenses,
+  //     setFetchError,
+  //   );
+  // }, []);
 
   useEffect(() => {
     let total = 0;
     for (const expenseName in repeatingExpenses) {
       total += Number(repeatingExpenses[expenseName]);
     }
-    console.log("total: ", total);
     setRepeatingExpenseTotal(total);
   }, [repeatingExpenses]);
 

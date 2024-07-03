@@ -34,6 +34,7 @@ import {
   getPaycheckFrequency,
   updatePaycheckInfo,
 } from "../../services/PaycheckInfoService";
+import { getUserUUID } from "../../services/UsersService";
 
 export const DashboardPage = () => {
   const [date, setDate] = useState(
@@ -56,9 +57,6 @@ export const DashboardPage = () => {
   const [fetchError, setFetchError] = useState(null);
   const [userUUID, setUserUUID] = useState(null);
   const [ids, setIds] = useState([]);
-
-  console.log("payFrequency : ", payFrequency);
-  console.log("payFrequency type : ", typeof payFrequency);
 
   const notify = () => toast("Saved calculation values");
 
@@ -84,17 +82,7 @@ export const DashboardPage = () => {
   }, []);
   //get user uuid
   useEffect(() => {
-    const getUserUUID = async () => {
-      const user = supabase.auth.getUser();
-
-      if (user) {
-        setUserUUID((await user).data.user.id);
-      } else {
-        console.log("Failed UserUUID Retrieval - No authenticated user");
-      }
-    };
-
-    getUserUUID();
+    getUserUUID(setUserUUID);
   }, []);
   //date setter
   useEffect(() => {
@@ -125,9 +113,7 @@ export const DashboardPage = () => {
   }, [selectedDate]);
 
   const savePaycheckInfo = () => {
-    console.log("userUUID length : ", getId(userUUID).length);
     if (getId(userUUID).length > 0) {
-      console.log("userUUID : ", userUUID);
       updatePaycheckInfo(
         userUUID,
         incomeAmount,
@@ -139,7 +125,6 @@ export const DashboardPage = () => {
         setFetchError,
       );
     } else {
-      console.log("No userUUID : ", userUUID);
       addPaycheckInfo(
         userUUID,
         incomeAmount,

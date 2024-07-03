@@ -6,11 +6,11 @@ export const getAllPayments = async (setPayments, setFetchError) => {
   if (error) {
     setFetchError("Could not fetch the payments");
     setPayments(null);
-    console.log(error);
+    console.log("PaymentsService getAllPayments error : ", error);
   }
   if (data) {
     setPayments(data);
-    console.log("I set it");
+    console.log("PaymentsService getAllPayments data : ", data);
     setFetchError(null);
   }
 };

@@ -99,11 +99,6 @@ export function getSelectedDateExpenses(
   date,
   payments,
 ) {
-  console.log("selectedDate: ", selectedDate);
-  console.log("payweekDates: ", payweekDates);
-  console.log("date: ", date);
-  console.log("payments: ", payments);
-
   // if (!selectedDate) {
   //     return [];
   // }
