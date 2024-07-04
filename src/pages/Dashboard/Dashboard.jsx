@@ -84,6 +84,11 @@ export const DashboardPage = () => {
   useEffect(() => {
     getUserUUID(setUserUUID);
   }, []);
+  //get user ids
+  useEffect(() => {
+    getIds(setIds, setFetchError);
+  }, []);
+
   //date setter
   useEffect(() => {
     setStartDate(formatDate(date));
@@ -113,7 +118,9 @@ export const DashboardPage = () => {
   }, [selectedDate]);
 
   const savePaycheckInfo = () => {
-    if (getId(userUUID).length > 0) {
+    getIds(setIds, setFetchError);
+    if (ids.includes(userUUID)) {
+      console.log("save paycheck info - try update");
       updatePaycheckInfo(
         userUUID,
         incomeAmount,
@@ -125,6 +132,7 @@ export const DashboardPage = () => {
         setFetchError,
       );
     } else {
+      console.log("save paycheck info - try add");
       addPaycheckInfo(
         userUUID,
         incomeAmount,
@@ -178,7 +186,7 @@ export const DashboardPage = () => {
           >
             <CustomNumberInput
               id="current_avg_income"
-              inputValue={incomeAmount}
+              inputValue={incomeAmount > 0 ? incomeAmount : ""}
               setInputValue={setIncomeAmount}
               numberType="decimal"
               adjustBy="100"
@@ -189,7 +197,7 @@ export const DashboardPage = () => {
               options={payFrequencies}
               selected={payFrequency}
               onSelect={(value) => setPayFrequency(value)}
-              placeholder="Select Pay Frequency"
+              placeholder="Select Pay Period"
               customClassNames="pb-2"
             />
             <CustomDateInput
@@ -262,7 +270,11 @@ export const DashboardPage = () => {
             className="col-span-1 row-span-14 content-start bg-gray-900 px-4 py-4 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <div className="pb-2 text-gray-600">
-              Payments on the {AddDueDateSuffix(selectedDate)}
+              {selectedDate ? (
+                <>Payments on the {AddDueDateSuffix(selectedDate)}</>
+              ) : (
+                <></>
+              )}
             </div>
             <div>
               {selectedDateExpenses.map((dateExpense) => (

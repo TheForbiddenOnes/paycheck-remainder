@@ -8,7 +8,14 @@ export const getIds = async (setIds, setFetchError) => {
     console.log("paycheckInfoService getIds error : ", error);
   }
   if (data) {
-    setIds(data);
+    console.log("PaycheckInfoService getIds data : ", data);
+    let newData = [];
+    data.map((d) => {
+      console.log("PaycheckInfoService getIds data d : ", d.id);
+      newData.push(d.id);
+    });
+    console.log("PaycheckInfoService getIds newData : ", newData);
+    setIds(newData);
   }
 };
 
@@ -20,10 +27,16 @@ export const getId = async (userId) => {
 
   if (error) {
     console.log("PaycheckInfoService getId error : ", error);
+    // return null; // return null or handle the error appropriately
   }
+
   if (data) {
-    return data;
+    console.log("PaycheckInfoService getId data : ", data);
+    console.log("PaycheckInfoService getId data[0] : ", data[0].id);
+    return data[0].id;
   }
+
+  return null;
 };
 
 export const getIncomeAmount = async (setIncomeAmount, setFetchError) => {
@@ -34,7 +47,6 @@ export const getIncomeAmount = async (setIncomeAmount, setFetchError) => {
   // console.log('income amount data :', data)
   if (error) {
     setFetchError("Could not fetch the income amount");
-    setIncomeAmount(0);
     console.log("PaycheckInfoService getIncomeAmount error : ", error);
   }
   if (data) {
