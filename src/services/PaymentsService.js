@@ -19,6 +19,8 @@ export const addPayment = async (
   expenseName,
   expenseAmount,
   expenseDueDate,
+  setPayments,
+  setFetchError,
 ) => {
   const { data, error } = await supabase
     .from("payments")
@@ -30,6 +32,17 @@ export const addPayment = async (
       },
     ])
     .select();
+
+  if (error) {
+    setFetchError("Could not add the payment");
+    console.log("PaymentsService addPayment error : ", error);
+  }
+
+  if (data) {
+    setPayments((prevPayments) => [...prevPayments, ...data]);
+    console.log("PaymentsService addPayment data : ", data);
+    setFetchError(null);
+  }
 };
 
 export const editPaymentRow = async (id) => {
@@ -51,12 +64,15 @@ export const editPaymentRow = async (id) => {
   }
 };
 
-export const deletePaymentRow = async (id) => {
+export const deletePaymentRow = async (id, setPayments) => {
   try {
     const { error } = await supabase.from("payments").delete().eq("id", id);
 
     if (error) throw error;
-    // window.location.reload();
+    setPayments((prevPayments) =>
+      prevPayments.filter((payment) => payment.id !== id),
+    );
+    console.log("PaymentsService deletePaymentRow: payment deleted");
   } catch (error) {
     alert(error.message);
   }

@@ -303,7 +303,13 @@ export const DashboardPage = () => {
             id="i"
             className="col-span-1 row-span-23 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            <PaymentsPage payments={payments} expenseTotal={expenseAmount} />
+            <PaymentsPage
+              payments={payments}
+              expenseTotal={expenseAmount}
+              setPayments={setPayments}
+              fetchError={fetchError}
+              setFetchError={setFetchError}
+            />
           </article>
         </article>
       </article>

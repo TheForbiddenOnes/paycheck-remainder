@@ -4,10 +4,11 @@ import { AddDueDateSuffix } from "../../helpers/dateHelpers";
 import {
   deletePaymentRow,
   editPaymentRow,
+  getAllPayments,
 } from "../../services/PaymentsService";
 import { CustomNumberInput } from "../CustomNumberInput";
 
-export const PaymentsTableRow = ({ payment }) => {
+export const PaymentsTableRow = ({ payment, setPayments, onDelete }) => {
   const [expenseName, setExpenseName] = useState(payment.expense_name);
   const [expenseAmount, setExpenseAmount] = useState(payment.expense_amount);
   const [expenseDueDate, setExpenseDueDate] = useState(
@@ -26,15 +27,15 @@ export const PaymentsTableRow = ({ payment }) => {
     editPaymentRow(payment.id, expenseName, expenseAmount, expenseDueDate);
   };
 
-  const handleDelete = (e) => {
-    e.preventDefault();
-
-    if (!payment) {
-      return;
-    }
-
-    deletePaymentRow(payment.id);
-  };
+  // const handleDelete = (e) => {
+  //   e.preventDefault();
+  //
+  //   if (!payment) {
+  //     return;
+  //   }
+  //
+  //   deletePaymentRow(payment.id, setPayments);
+  // };
 
   return (
     <tr className="flex w-full items-center border-b border-gray-700 bg-gray-900">
@@ -65,7 +66,7 @@ export const PaymentsTableRow = ({ payment }) => {
             <button
               type="button"
               className="ml-2 w-1/3 rounded-sm bg-gray-800 py-2 outline outline-1 outline-offset-0 outline-gray-600 hover:bg-gray-700"
-              onClick={handleDelete}
+              onClick={onDelete}
             >
               Delete
             </button>

@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { CustomNumberInput } from "../../components/CustomNumberInput";
 import { PaymentsTableRow } from "../../components/PaymentsTableRow";
-import { addPayment, getAllPayments } from "../../services/PaymentsService";
+import {
+  addPayment,
+  deletePaymentRow,
+  getAllPayments,
+} from "../../services/PaymentsService";
 
-export const PaymentsPage = ({ payments }) => {
+export const PaymentsPage = ({ payments, setPayments }) => {
   const [fetchError, setFetchError] = useState(null);
 
   const [expenseName, setExpenseName] = useState("");
@@ -18,7 +22,17 @@ export const PaymentsPage = ({ payments }) => {
       return;
     }
 
-    addPayment(expenseName, expenseAmount, expenseDueDate);
+    addPayment(
+      expenseName,
+      expenseAmount,
+      expenseDueDate,
+      setPayments,
+      setFetchError,
+    );
+  };
+
+  const handleDelete = (id) => {
+    deletePaymentRow(id, setPayments);
   };
 
   return (
@@ -83,7 +97,11 @@ export const PaymentsPage = ({ payments }) => {
             {fetchError && <p>{fetchError}</p>}
             {payments &&
               payments.map((payment) => (
-                <PaymentsTableRow key={payment.id} payment={payment} />
+                <PaymentsTableRow
+                  key={payment.id}
+                  payment={payment}
+                  onDelete={() => handleDelete(payment.id)}
+                />
               ))}
           </tbody>
         </table>
