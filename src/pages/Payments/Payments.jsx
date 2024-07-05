@@ -28,29 +28,19 @@ export const PaymentsPage = ({ payments }) => {
         className="col-span-full row-span-1 flex flex-row items-end justify-center gap-4 p-6"
       >
         <div>
-          <label
-            htmlFor="expense_name"
-            className="mb-2 block text-base text-gray-600"
-          >
-            Name of Expense...
-          </label>
           <input
+            placeholder="Name of Expense..."
             type="text"
             id="expense_name"
-            className="block h-8 w-full rounded-sm bg-gray-850 pl-2 outline outline-1 outline-offset-0 outline-gray-700"
+            className="block h-8 w-full rounded-sm bg-gray-850 pl-2 text-xs outline outline-1 outline-offset-0 outline-gray-700"
             onChange={(e) => {
               setExpenseName(e.target.value);
             }}
           />
         </div>
         <div>
-          <label
-            htmlFor="expense_amount"
-            className="mb-2 block text-base text-gray-600"
-          >
-            Expense Amount...
-          </label>
           <CustomNumberInput
+            placeholder="Expense Amount..."
             id="expense_amount"
             numberType="decimal"
             adjustBy="10"
@@ -59,13 +49,8 @@ export const PaymentsPage = ({ payments }) => {
           />
         </div>
         <div>
-          <label
-            htmlFor="expense_due_date"
-            className="mb-2 block text-base text-gray-600"
-          >
-            Date Expense is Due...
-          </label>
           <CustomNumberInput
+            placeholder="Expense Due Date..."
             id="expense_due_date"
             inputValue={expenseDueDate}
             setInputValue={setExpenseDueDate}

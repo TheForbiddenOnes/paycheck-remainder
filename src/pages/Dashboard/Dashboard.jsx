@@ -186,7 +186,7 @@ export const DashboardPage = () => {
           >
             <CustomNumberInput
               id="current_avg_income"
-              inputValue={incomeAmount > 0 ? incomeAmount : ""}
+              inputValue={incomeAmount}
               setInputValue={setIncomeAmount}
               numberType="decimal"
               adjustBy="100"
