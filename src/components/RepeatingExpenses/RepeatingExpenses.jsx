@@ -72,13 +72,10 @@ export const RepeatingExpenses = ({
 
   return (
     <div>
-      <p className="my-2 border-b border-solid border-gray-700 text-sm font-thin text-gray-600">
-        Repeating Expenses
-      </p>
       <button
         type="button"
         onClick={() => setAddNewRepeatingExpense(!addNewRepeatingExpense)}
-        className="mt-4 flex h-8 w-full items-center justify-center rounded-sm bg-gray-800 text-center text-sm outline outline-1 outline-offset-0 outline-gray-600 hover:bg-gray-700"
+        className="flex h-8 w-full items-center justify-center rounded-sm bg-gray-800 text-center text-sm outline outline-1 outline-offset-0 outline-gray-600 hover:bg-gray-700"
       >
         <PlusIcon className="h-1/2 w-1/2" />
       </button>

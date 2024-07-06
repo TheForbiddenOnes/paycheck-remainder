@@ -39,10 +39,10 @@ export const PaymentsPage = ({ payments, setPayments }) => {
   };
 
   return (
-    <article className="col-span-1 row-span-full grid h-screen grid-cols-12 grid-rows-9 bg-gray-900">
+    <article className="col-span-1 row-span-full grid h-screen grid-cols-12 grid-rows-12 bg-gray-900">
       <form
         onSubmit={handleSubmit}
-        className="col-span-full row-span-1 flex flex-row items-end justify-center gap-4 p-6"
+        className="col-span-full row-span-1 flex flex-row items-center justify-center gap-4"
       >
         <div>
           <input
@@ -81,7 +81,7 @@ export const PaymentsPage = ({ payments, setPayments }) => {
           Add
         </button>
       </form>
-      <div className="col-span-full row-span-8 pb-10">
+      <div className="col-span-full row-span-11 pb-10">
         <table className="h-full w-full text-center text-sm text-white">
           <thead className="bg-gray-900 text-xs uppercase text-gray-500 outline outline-1 outline-offset-0 outline-gray-700">
             <tr className="flex w-full items-center justify-evenly">

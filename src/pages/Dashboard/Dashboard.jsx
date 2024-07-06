@@ -182,7 +182,7 @@ export const DashboardPage = () => {
           </article>
           <article
             id="d"
-            className="col-span-1 row-span-20 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
+            className="col-span-1 row-span-5 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
           >
             <CustomNumberInput
               id="current_avg_income"
@@ -212,14 +212,6 @@ export const DashboardPage = () => {
             >
               Save
             </button>
-            <RepeatingExpenses
-              userUUID={userUUID}
-              repeatingExpenses={repeatingExpenses}
-              setRepeatingExpenses={setRepeatingExpenses}
-              repeatingExpenseTotal={repeatingExpenseTotal}
-              setRepeatingExpenseTotal={setRepeatingExpenseTotal}
-              setFetchError={setFetchError}
-            />
             <ToastContainer
               toastClassName="bg-emerald-950 text-center rounded-sm text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
               icon={false}
@@ -235,6 +227,26 @@ export const DashboardPage = () => {
               theme="dark"
             />
           </article>
+          <article
+            id="e"
+            className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+          >
+            <div className="">Repeating Expenses</div>
+            <div className="">{`$${repeatingExpenseTotal.toFixed(2)}`}</div>
+          </article>
+          <article
+            id="d"
+            className="col-span-1 row-span-14 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
+          >
+            <RepeatingExpenses
+              userUUID={userUUID}
+              repeatingExpenses={repeatingExpenses}
+              setRepeatingExpenses={setRepeatingExpenses}
+              repeatingExpenseTotal={repeatingExpenseTotal}
+              setRepeatingExpenseTotal={setRepeatingExpenseTotal}
+              setFetchError={setFetchError}
+            />
+          </article>
         </article>
         <article
           id="center"
@@ -245,7 +257,7 @@ export const DashboardPage = () => {
             className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <div className="">Current Pay Period</div>
-            <div className="">{`Total: $${expenseAmount.toFixed(2)}`}</div>
+            <div className="">{`$${(expenseAmount + repeatingExpenseTotal).toFixed(2)}`}</div>
           </article>
           <article
             id="f"
@@ -263,7 +275,7 @@ export const DashboardPage = () => {
             className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <div className="">Selected Date Expenses</div>
-            <div className="">{`Total: $${getSelectedDateExpenseTotal(selectedDateExpenses)}`}</div>
+            <div className="">{`$${getSelectedDateExpenseTotal(selectedDateExpenses)}`}</div>
           </article>
           <article
             id="h"
@@ -297,7 +309,7 @@ export const DashboardPage = () => {
             className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
           >
             <p className="">Monthly Expenses</p>
-            <p className="">{`Total: $${getAllPaymentsTotal(payments)}`}</p>
+            <p className="">{`$${getAllPaymentsTotal(payments)}`}</p>
           </article>
           <article
             id="i"
