@@ -17,7 +17,7 @@ export const RepeatingExpenses = ({
   setRepeatingExpenseTotal,
   setFetchError,
 }) => {
-  const [AddNewRepeatingExpense, setAddNewRepeatingExpense] = useState(false);
+  const [addNewRepeatingExpense, setAddNewRepeatingExpense] = useState(false);
   const [repeatingExpenseName, setRepeatingExpenseName] = useState("");
   const [repeatingExpenseAmount, setRepeatingExpenseAmount] = useState(0);
 
@@ -77,14 +77,14 @@ export const RepeatingExpenses = ({
       </p>
       <button
         type="button"
-        onClick={() => setAddNewRepeatingExpense(true)}
+        onClick={() => setAddNewRepeatingExpense(!addNewRepeatingExpense)}
         className="mt-4 flex h-8 w-full items-center justify-center rounded-sm bg-gray-800 text-center text-sm outline outline-1 outline-offset-0 outline-gray-600 hover:bg-gray-700"
       >
         <PlusIcon className="h-1/2 w-1/2" />
       </button>
       <form>
-        {AddNewRepeatingExpense ? (
-          <div className="w-58 fixed z-10 -ml-0.5 mt-2 rounded border border-solid border-gray-700 bg-gray-900 p-2 text-center text-sm">
+        {addNewRepeatingExpense ? (
+          <div className="fixed z-10 -ml-0.5 mt-2 w-58 rounded border border-solid border-gray-700 bg-gray-900 p-2 text-center text-sm">
             <p className="my-2 text-left text-sm font-thin text-gray-600">
               Name
             </p>

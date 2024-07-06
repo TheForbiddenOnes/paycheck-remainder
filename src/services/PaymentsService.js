@@ -19,6 +19,9 @@ export const addPayment = async (
   expenseName,
   expenseAmount,
   expenseDueDate,
+  setExpenseName,
+  setExpenseAmount,
+  setExpenseDueDate,
   setPayments,
   setFetchError,
 ) => {
@@ -40,6 +43,10 @@ export const addPayment = async (
 
   if (data) {
     setPayments((prevPayments) => [...prevPayments, ...data]);
+    setExpenseName("");
+    console.log("add payment expenseName : ", expenseName);
+    setExpenseAmount(0);
+    setExpenseDueDate(0);
     console.log("PaymentsService addPayment data : ", data);
     setFetchError(null);
   }

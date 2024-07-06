@@ -26,6 +26,9 @@ export const PaymentsPage = ({ payments, setPayments }) => {
       expenseName,
       expenseAmount,
       expenseDueDate,
+      setExpenseName,
+      setExpenseAmount,
+      setExpenseDueDate,
       setPayments,
       setFetchError,
     );
@@ -50,6 +53,7 @@ export const PaymentsPage = ({ payments, setPayments }) => {
             onChange={(e) => {
               setExpenseName(e.target.value);
             }}
+            value={expenseName || ""}
           />
         </div>
         <div>

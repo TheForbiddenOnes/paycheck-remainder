@@ -169,7 +169,7 @@ export const DashboardPage = () => {
             className="col-span-1 row-span-2 content-center bg-gray-900 text-center outline outline-1 outline-offset-0 outline-gray-700"
           >
             <p className="text-2xl">
-              {incomeAmount && expenseAmount
+              {incomeAmount
                 ? `${"$" + (incomeAmount - (expenseAmount + repeatingExpenseTotal)).toFixed(2)}`
                 : `${"$" + "0.00"}`}
             </p>

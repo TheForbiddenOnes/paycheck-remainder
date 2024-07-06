@@ -55,7 +55,7 @@ export const CustomNumberInput = ({
               break;
           }
         }}
-        value={inputValue > 0 ? inputValue : ""}
+        value={inputValue > 0 ? inputValue : defaultValue ? defaultValue : ""}
       />
       <div className="flex w-1/6 flex-col">
         <button
