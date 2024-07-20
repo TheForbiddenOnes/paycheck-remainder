@@ -20,7 +20,7 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-800 rounded-sm
+  @apply bg-gray-800
 }
 
 /* Handle on hover */
