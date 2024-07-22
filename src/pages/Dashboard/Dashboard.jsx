@@ -35,6 +35,8 @@ import {
   updatePaycheckInfo,
 } from "../../services/PaycheckInfoService";
 import { getUserUUID } from "../../services/UsersService";
+import { CalculatorIcon } from "@heroicons/react/24/outline";
+import { Calculator } from "../../components/Calculator";
 
 export const DashboardPage = () => {
   const [date, setDate] = useState(
@@ -57,6 +59,7 @@ export const DashboardPage = () => {
   const [fetchError, setFetchError] = useState(null);
   const [userUUID, setUserUUID] = useState(null);
   const [ids, setIds] = useState([]);
+  const [calculatorOpen, setCalculatorOpen] = useState(false);
 
   const notify = () => toast("Saved calculation values");
 
@@ -147,184 +150,200 @@ export const DashboardPage = () => {
     notify();
   };
 
+  const toggleCalculator = () => {
+    setCalculatorOpen(!calculatorOpen);
+    console.log("open calculator after : ", calculatorOpen);
+  };
+
   return (
-    <div className="grid h-screen grid-cols-24 overflow-hidden">
-      <Navbar />
-      <article
-        id="main-content"
-        className="col-span-23 row-span-full grid grid-cols-12 grid-rows-4 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
-      >
+    <>
+      {calculatorOpen ? (
+        <Calculator setCalculatorOpen={setCalculatorOpen} />
+      ) : null}
+      <div className="grid h-screen grid-cols-24 overflow-hidden">
+        <Navbar />
         <article
-          id="left"
-          className="col-span-2 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
+          id="main-content"
+          className="col-span-23 row-span-full grid grid-cols-12 grid-rows-4 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
         >
           <article
-            id="a"
-            className="col-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            id="left"
+            className="col-span-2 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            Remainder
-          </article>
-          <article
-            id="b"
-            className="col-span-1 row-span-2 content-center bg-gray-900 text-center outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <p className="text-2xl">
-              {incomeAmount
-                ? `${"$" + (incomeAmount - (expenseAmount + repeatingExpenseTotal)).toFixed(2)}`
-                : `${"$" + "0.00"}`}
-            </p>
-          </article>
-          <article
-            id="c"
-            className="col-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            Calculate Remainder
-          </article>
-          <article
-            id="d"
-            className="col-span-1 row-span-5 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <CustomNumberInput
-              id="current_avg_income"
-              inputValue={incomeAmount}
-              setInputValue={setIncomeAmount}
-              numberType="decimal"
-              adjustBy="100"
-              placeholder="Current Average Income"
-              customClassNames="pb-2"
-            ></CustomNumberInput>
-            <CustomDropdown
-              options={payFrequencies}
-              selected={payFrequency}
-              onSelect={(value) => setPayFrequency(value)}
-              placeholder="Select Pay Period"
-              customClassNames="pb-2"
-            />
-            <CustomDateInput
-              startDate={startDate}
-              setDate={setDate}
-              customClassNames=""
-            />
-            <button
-              type="button"
-              onMouseDown={savePaycheckInfo}
-              className="mt-4 h-8 w-4/12 rounded-sm bg-emerald-950 text-center text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
+            <article
+              id="a"
+              className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
             >
-              Save
-            </button>
-            <ToastContainer
-              toastClassName="bg-emerald-950 text-center rounded-sm text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
-              icon={false}
-              position="bottom-left"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="dark"
-            />
+              <div className="">Remainder</div>
+              <div
+                className="cursor-pointer text-emerald-700 hover:text-emerald-500 active:text-emerald-300"
+                onMouseDown={toggleCalculator}
+              >
+                <CalculatorIcon className="h-6 w-6" />
+              </div>
+            </article>
+            <article
+              id="b"
+              className="col-span-1 row-span-2 content-center bg-gray-900 text-center outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <p className="text-2xl">
+                {incomeAmount
+                  ? `${"$" + (incomeAmount - (expenseAmount + repeatingExpenseTotal)).toFixed(2)}`
+                  : `${"$" + "0.00"}`}
+              </p>
+            </article>
+            <article
+              id="c"
+              className="col-span-1 content-center bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              Calculate Remainder
+            </article>
+            <article
+              id="d"
+              className="col-span-1 row-span-5 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <CustomNumberInput
+                id="current_avg_income"
+                inputValue={incomeAmount}
+                setInputValue={setIncomeAmount}
+                numberType="decimal"
+                adjustBy="100"
+                placeholder="Current Average Income"
+                customClassNames="pb-2"
+              ></CustomNumberInput>
+              <CustomDropdown
+                options={payFrequencies}
+                selected={payFrequency}
+                onSelect={(value) => setPayFrequency(value)}
+                placeholder="Select Pay Period"
+                customClassNames="pb-2"
+              />
+              <CustomDateInput
+                startDate={startDate}
+                setDate={setDate}
+                customClassNames=""
+              />
+              <button
+                type="button"
+                onMouseDown={savePaycheckInfo}
+                className="mt-4 h-8 w-4/12 rounded-sm bg-emerald-950 text-center text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
+              >
+                Save
+              </button>
+              <ToastContainer
+                toastClassName="bg-emerald-950 text-center rounded-sm text-sm outline outline-1 outline-offset-0 outline-emerald-700 hover:bg-emerald-900 hover:outline-emerald-600 active:bg-emerald-800"
+                icon={false}
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+              />
+            </article>
+            <article
+              id="e"
+              className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <div className="">Repeating Expenses</div>
+              <div className="">{`$${repeatingExpenseTotal.toFixed(2)}`}</div>
+            </article>
+            <article
+              id="d"
+              className="col-span-1 row-span-14 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <RepeatingExpenses
+                userUUID={userUUID}
+                repeatingExpenses={repeatingExpenses}
+                setRepeatingExpenses={setRepeatingExpenses}
+                repeatingExpenseTotal={repeatingExpenseTotal}
+                setRepeatingExpenseTotal={setRepeatingExpenseTotal}
+                setFetchError={setFetchError}
+              />
+            </article>
           </article>
           <article
-            id="e"
-            className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            id="center"
+            className="col-span-4 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            <div className="">Repeating Expenses</div>
-            <div className="">{`$${repeatingExpenseTotal.toFixed(2)}`}</div>
+            <article
+              id="e"
+              className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <div className="">Current Pay Period</div>
+              <div className="">{`$${(expenseAmount + repeatingExpenseTotal).toFixed(2)}`}</div>
+            </article>
+            <article
+              id="f"
+              className="col-span-1 row-span-8 content-center bg-gray-900 px-2 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <PaycheckCalendar
+                date={date}
+                calendarRows={payweekCalendarRows}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+            </article>
+            <article
+              id="g"
+              className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <div className="">Selected Date Expenses</div>
+              <div className="">{`$${getSelectedDateExpenseTotal(selectedDateExpenses)}`}</div>
+            </article>
+            <article
+              id="h"
+              className="col-span-1 row-span-14 content-start bg-gray-900 px-4 py-4 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <div className="pb-2 text-gray-600">
+                {selectedDate ? (
+                  <>Payments on the {AddDueDateSuffix(selectedDate)}</>
+                ) : (
+                  <></>
+                )}
+              </div>
+              <div>
+                {selectedDateExpenses.map((dateExpense) => (
+                  <PaycheckCalendarPaymentInfo
+                    key={dateExpense.id}
+                    weekday={dateExpense.expense_due_date}
+                    amount={dateExpense.expense_amount}
+                    expense={dateExpense.expense_name}
+                  />
+                ))}
+              </div>
+            </article>
           </article>
           <article
-            id="d"
-            className="col-span-1 row-span-14 bg-gray-900 px-4 py-4 text-center outline outline-1 outline-offset-0 outline-gray-700"
+            id="right"
+            className="col-span-6 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
           >
-            <RepeatingExpenses
-              userUUID={userUUID}
-              repeatingExpenses={repeatingExpenses}
-              setRepeatingExpenses={setRepeatingExpenses}
-              repeatingExpenseTotal={repeatingExpenseTotal}
-              setRepeatingExpenseTotal={setRepeatingExpenseTotal}
-              setFetchError={setFetchError}
-            />
+            <article
+              id="h"
+              className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <p className="">Monthly Expenses</p>
+              <p className="">{`$${getAllPaymentsTotal(payments)}`}</p>
+            </article>
+            <article
+              id="i"
+              className="col-span-1 row-span-23 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
+            >
+              <PaymentsPage
+                payments={payments}
+                expenseTotal={expenseAmount}
+                setPayments={setPayments}
+                fetchError={fetchError}
+                setFetchError={setFetchError}
+              />
+            </article>
           </article>
         </article>
-        <article
-          id="center"
-          className="col-span-4 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
-        >
-          <article
-            id="e"
-            className="col-span-1 row-span-1 flex flex-row items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <div className="">Current Pay Period</div>
-            <div className="">{`$${(expenseAmount + repeatingExpenseTotal).toFixed(2)}`}</div>
-          </article>
-          <article
-            id="f"
-            className="col-span-1 row-span-8 content-center bg-gray-900 px-2 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <PaycheckCalendar
-              date={date}
-              calendarRows={payweekCalendarRows}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
-          </article>
-          <article
-            id="g"
-            className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <div className="">Selected Date Expenses</div>
-            <div className="">{`$${getSelectedDateExpenseTotal(selectedDateExpenses)}`}</div>
-          </article>
-          <article
-            id="h"
-            className="col-span-1 row-span-14 content-start bg-gray-900 px-4 py-4 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <div className="pb-2 text-gray-600">
-              {selectedDate ? (
-                <>Payments on the {AddDueDateSuffix(selectedDate)}</>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div>
-              {selectedDateExpenses.map((dateExpense) => (
-                <PaycheckCalendarPaymentInfo
-                  key={dateExpense.id}
-                  weekday={dateExpense.expense_due_date}
-                  amount={dateExpense.expense_amount}
-                  expense={dateExpense.expense_name}
-                />
-              ))}
-            </div>
-          </article>
-        </article>
-        <article
-          id="right"
-          className="col-span-6 row-span-full grid grid-flow-row grid-rows-24 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
-        >
-          <article
-            id="h"
-            className="col-span-1 row-span-1 flex flex-row content-center items-center justify-between bg-gray-900 px-2 text-gray-400 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <p className="">Monthly Expenses</p>
-            <p className="">{`$${getAllPaymentsTotal(payments)}`}</p>
-          </article>
-          <article
-            id="i"
-            className="col-span-1 row-span-23 bg-gray-900 outline outline-1 outline-offset-0 outline-gray-700"
-          >
-            <PaymentsPage
-              payments={payments}
-              expenseTotal={expenseAmount}
-              setPayments={setPayments}
-              fetchError={fetchError}
-              setFetchError={setFetchError}
-            />
-          </article>
-        </article>
-      </article>
-    </div>
+      </div>
+    </>
   );
 };

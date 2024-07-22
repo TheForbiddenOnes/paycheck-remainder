@@ -14,6 +14,10 @@ module.exports = {
       colors: {
         gray: {
           850: "rgba(11,18,33,0.79)",
+          "850s": "#101624",
+        },
+        emerald: {
+          975: "#062019",
         },
       },
       gridColumn: {
